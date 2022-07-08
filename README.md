@@ -1,2 +1,2 @@
-# idp-openid-connect-bundle
-A Symfony OpenID Connect instant-use bundle
+# An IdentityProvider OpenIDConnect bundle
+A Symfony based IdentityProvider with OpenID Connect implemented

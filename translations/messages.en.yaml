@@ -1,0 +1,27 @@
+account:
+  login:
+    title: Sign in to your %companyName% account
+    username: Username
+    password: Password
+    no_account: No account yet?
+    register: Register here!
+    sign_in: Sign in
+  register:
+    title: Register a %companyName% account
+    username: E-mail
+    username.help: This will be your username
+    password: Password
+    password_repeat: Password repeat
+    existing_user: Already have an account?
+    sign_in: Login!
+    register: Register
+  password:
+    forgotten: Forgot your password?
+    reset: Reset your password
+    email: Account e-mail
+    email.help: If an account with this e-mail address is known a reset notification will be sent
+
+email:
+  reset_password:
+    subject: Reset your password
+    salutation: Hello %username%

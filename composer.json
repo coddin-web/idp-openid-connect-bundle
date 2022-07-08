@@ -1,0 +1,99 @@
+{
+    "name": "coddin-web/idp-openid-connect-bundle",
+    "description": "A Symfony based IdentityProvider with OpenID Connect implemented",
+    "type": "symfony-bundle",
+    "require": {
+        "php": ">=8.1",
+        "beberlei/assert": "^3.3",
+        "doctrine/doctrine-bundle": "^2.7",
+        "doctrine/orm": "^2.12",
+        "guzzlehttp/guzzle": "^7.4",
+        "league/oauth2-server": "^8.3",
+        "nyholm/psr7": "^1.5",
+        "ramsey/uuid": "^4.3",
+        "steverhoades/oauth2-openid-connect-server": "^2.4",
+        "symfony/framework-bundle": "^6.1",
+        "symfony/mailer": "^6.1",
+        "symfony/messenger": "^6.1",
+        "symfony/psr-http-message-bridge": "^2.1",
+        "symfony/security-bundle": "^6.1",
+        "symfony/translation": "^6.1",
+        "thecodingmachine/safe": "^2.2"
+    },
+    "require-dev": {
+        "dama/doctrine-test-bundle": "^7.0",
+        "dg/bypass-finals": "^1.3",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "jetbrains/phpstorm-attributes": "^1.0",
+        "phpstan/phpstan": "^1.2",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "phpstan/phpstan-strict-rules": "^1.1",
+        "phpstan/phpstan-symfony": "^1.2",
+        "phpunit/phpunit": "^9.5",
+        "rregeer/phpunit-coverage-check": "^0.3.1",
+        "slevomat/coding-standard": "^7.0",
+        "squizlabs/php_codesniffer": "^3.6",
+        "symfony/maker-bundle": "^1.34",
+        "symfony/stopwatch": "6.0.*",
+        "symfony/web-profiler-bundle": "6.0.*"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Coddin\\IdentityProvider\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
+    },
+    "scripts": {
+        "phpcs": "phpcs --standard=./phpcs_codestyle.xml -n src tests",
+        "phpcs-fix": "phpcbf --standard=./phpcs_codestyle.xml -n src tests",
+        "phpstan": "phpstan analyse --memory-limit=1G",
+        "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist",
+        "phpunitwcov": "XDEBUG_MODE=coverage vendor/bin/phpunit -c phpunit.xml.dist --coverage-html reports/ --coverage-clover clover.xml",
+        "phpcoverage": "coverage-check clover.xml 74",
+        "checkup": [
+            "@phpcs",
+            "@phpstan",
+            "@phpunitwcov",
+            "@phpcoverage"
+        ],
+        "coveragecheck": [
+            "@phpunitwcov",
+            "@phpcoverage"
+        ],
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Marius",
+            "email": "marius@coddin.nl"
+        }
+    ],
+    "minimum-stability": "stable"
+}

@@ -1,0 +1,33 @@
+login:
+  path: /login
+  methods: GET|POST
+  controller: IdentityProvider\Controller\Identity\AuthorizationController::login
+
+login_finish_oid:
+  path: /login/oidc
+  methods: GET
+  controller: IdentityProvider\Controller\Identity\AuthorizationController::finishOpenIDConnectFlow
+
+app_logout:
+  path: /logout
+  methods: GET
+
+register:
+  path: /register
+  methods: GET
+  controller: IdentityProvider\Controller\Identity\RegistrationController::index
+
+register.submit:
+  path: /register/submit
+  methods: POST
+  controller: IdentityProvider\Controller\Identity\RegistrationController::register
+
+forgotten_password:
+  path: /password/forgotten
+  methods: GET
+  controller: IdentityProvider\Controller\Identity\ForgottenPasswordController::index
+
+forgotten_password.submit:
+  path: /password/forgotten
+  methods: POST
+  controller: IdentityProvider\Controller\Identity\ForgottenPasswordController::resetPassword

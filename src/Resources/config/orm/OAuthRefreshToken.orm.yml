@@ -1,0 +1,30 @@
+Coddin\OpenIDConnect\Domain\OAuthRefreshToken:
+  type: entity
+  table: oauth_refresh_token
+  repositoryClass: Coddin\OpenIDConnect\Domain\Repository\OAuthRefreshTokenRepository
+  id:
+    id:
+      type: integer
+      options:
+        unsigned: true
+      generator:
+        strategy: AUTO
+  fields:
+    externalId:
+      type: string
+      length: 255
+    createdAt:
+      type: datetime_immutable
+    expiresAt:
+      type: datetime_immutable
+    revokedAt:
+      type: datetime_immutable
+      nullable: true
+  manyToOne:
+    oAuthAccessToken:
+      targetEntity: OAuthAccessToken
+      inversedBy: oAuthRefreshTokens
+      joinColumn:
+        name: oauth_access_token_id
+        referencedColumnName: id
+        nullable: false

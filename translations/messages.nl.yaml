@@ -1,0 +1,27 @@
+account:
+  login:
+    title: Log in op je %companyName% account
+    username: Gebruikersnaam
+    password: Wachtwoord
+    no_account: Nog geen account?
+    register: Registreer je hier!
+    sign_in: Log in
+  register:
+    title: Registreer een %companyName% account
+    username: E-mail
+    username.help: Dit word je gebruikersnaam
+    password: Wachtwoord
+    password_repeat: Herhaal wachtwoord
+    existing_user: Heb je al een account?
+    sign_in: Log in!
+    register: Registreer
+  password:
+    forgotten: Wachtwoord vergeten?
+    reset: Reset je wachtwoord
+    email: Account e-mail
+    email.help: Wanneer een account met dit e-mail adres bekend is bij ons zal er een reset notificatie verstuurd worden
+
+email:
+  reset_password:
+    subject: Wachtwoord resetten
+    salutation: Hallo %username%
