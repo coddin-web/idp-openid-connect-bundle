@@ -6,6 +6,6 @@ namespace Coddin\IdentityProvider;
 
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
-final class CoddinOpenIDConnectBundle extends AbstractBundle
+final class CoddinIdentityProviderBundle extends AbstractBundle
 {
 }
