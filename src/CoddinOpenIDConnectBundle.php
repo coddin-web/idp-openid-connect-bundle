@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Coddin\OpenIDConnect;
+namespace Coddin\IdentityProvider;
 
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
