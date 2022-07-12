@@ -20,7 +20,7 @@ final class ForgottenPasswordController extends AbstractController
     public function index(): Response
     {
         return $this->render(
-            'password/forgotten.html.twig',
+            '@CoddinIdentityProvider/password/forgotten.html.twig',
         );
     }
 

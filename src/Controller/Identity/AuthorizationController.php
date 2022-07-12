@@ -48,7 +48,7 @@ final class AuthorizationController extends AbstractController
         AuthenticationUtils $authenticationUtils,
     ): Response {
         if ($security->getUser() !== null) {
-            return $this->redirectToRoute('account.profile');
+            return $this->redirectToRoute('coddin_identity_provider.account.profile');
         }
 
         return $this->render(
