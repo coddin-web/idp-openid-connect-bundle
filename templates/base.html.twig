@@ -5,11 +5,11 @@
         <title>{% block title %}Coddin IDP{% endblock %}</title>
 
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+            <link rel="stylesheet" href="{{ asset('bundles/coddinidentityprovider/build/app.css') }}">
         {% endblock %}
 
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+            <script type="text/javascript" src="{{ asset('bundles/coddinidentityprovider/build/app.js') }}"></script>
         {% endblock %}
     </head>
     <body class="{% block body_class %}h-full{% endblock %}">

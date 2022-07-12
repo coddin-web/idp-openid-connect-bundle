@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Coddin\IdentityProvider\Repository\LeagueOAuth2Server;
 
 use Coddin\IdentityProvider\Generator\OAuthRefreshTokenCreate;
-use Coddin\OpenIDConnect\Domain\Repository\OAuthAccessTokenRepository;
-use Coddin\OpenIDConnect\Domain\Repository\OAuthRefreshTokenRepository;
+use Coddin\IdentityProvider\Repository\OAuthAccessTokenRepository;
+use Coddin\IdentityProvider\Repository\OAuthRefreshTokenRepository;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Coddin\IdentityProvider\Entity\LeagueOAuth2Server\RefreshTokenEntity;

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Coddin\IdentityProvider\EventListener;
 
 use Coddin\IdentityProvider\Entity\OpenIDConnect\User;
-use Coddin\OpenIDConnect\Domain\Repository\OAuthAccessTokenRepository;
-use Coddin\OpenIDConnect\Domain\Repository\OAuthAuthorizationCodeRepository;
+use Coddin\IdentityProvider\Repository\OAuthAccessTokenRepository;
+use Coddin\IdentityProvider\Repository\OAuthAuthorizationCodeRepository;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 final class LogoutListener

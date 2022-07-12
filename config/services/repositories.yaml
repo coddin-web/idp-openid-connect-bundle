@@ -1,0 +1,35 @@
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    public: false
+
+  # Map the repository interfaces
+  Coddin\IdentityProvider\Repository\Dbal\OAuthAccessTokenDbalRepository:
+    arguments:
+      - '@doctrine'
+  Coddin\IdentityProvider\Repository\OAuthAccessTokenRepository: '@Coddin\IdentityProvider\Repository\Dbal\OAuthAccessTokenDbalRepository'
+
+  Coddin\IdentityProvider\Repository\Dbal\OAuthAuthorizationCodeDbalRepository:
+    arguments:
+      - '@doctrine'
+  Coddin\IdentityProvider\Repository\OAuthAuthorizationCodeRepository: '@Coddin\IdentityProvider\Repository\Dbal\OAuthAuthorizationCodeDbalRepository'
+
+  Coddin\IdentityProvider\Repository\Dbal\OAuthClientDbalRepository:
+    arguments:
+      - '@doctrine'
+  Coddin\IdentityProvider\Repository\OAuthClientRepository: '@Coddin\IdentityProvider\Repository\Dbal\OAuthClientDbalRepository'
+
+  Coddin\IdentityProvider\Repository\Dbal\OAuthRefreshTokenDbalRepository:
+    arguments:
+      - '@doctrine'
+  Coddin\IdentityProvider\Repository\OAuthRefreshTokenRepository: '@Coddin\IdentityProvider\Repository\Dbal\OAuthRefreshTokenDbalRepository'
+
+  Coddin\IdentityProvider\Repository\Dbal\UserOAuthClientDbalRepository:
+    arguments:
+      - '@doctrine'
+  Coddin\IdentityProvider\Repository\UserOAuthClientRepository: '@Coddin\IdentityProvider\Repository\Dbal\UserOAuthClientDbalRepository'
+
+  Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository:
+    arguments:
+      - '@doctrine'
+  Coddin\IdentityProvider\Repository\UserRepository: '@Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository'

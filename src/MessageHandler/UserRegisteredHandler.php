@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Coddin\IdentityProvider\MessageHandler;
 
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthClient;
-use Coddin\OpenIDConnect\Domain\Repository\OAuthClientRepository;
-use Coddin\OpenIDConnect\Domain\Repository\UserRepository;
+use Coddin\IdentityProvider\Repository\OAuthClientRepository;
+use Coddin\IdentityProvider\Repository\UserRepository;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Coddin\OpenIDConnect\Domain\Repository;
+namespace Coddin\IdentityProvider\Repository;
 
 use Coddin\IdentityProvider\Entity\OpenIDConnect\UserOAuthClient;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;

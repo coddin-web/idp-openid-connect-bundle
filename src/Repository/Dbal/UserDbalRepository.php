@@ -8,7 +8,7 @@ use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthClient;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\User;
 use Coddin\IdentityProvider\Generator\UserCreate;
 use Coddin\IdentityProvider\Generator\UserOAuthClientCreate;
-use Coddin\OpenIDConnect\Domain\Repository\UserRepository;
+use Coddin\IdentityProvider\Repository\UserRepository;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;

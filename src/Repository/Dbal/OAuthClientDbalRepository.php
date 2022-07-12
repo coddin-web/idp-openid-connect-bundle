@@ -6,7 +6,7 @@ namespace Coddin\IdentityProvider\Repository\Dbal;
 
 use Coddin\IdentityProvider\Collection\OAuthClientCollection;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthClient;
-use Coddin\OpenIDConnect\Domain\Repository\OAuthClientRepository;
+use Coddin\IdentityProvider\Repository\OAuthClientRepository;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;

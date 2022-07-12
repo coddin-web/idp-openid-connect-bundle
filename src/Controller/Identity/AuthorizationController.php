@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Coddin\IdentityProvider\Controller\Identity;
 
-use Coddin\OpenIDConnect\Domain\Repository\OAuthAccessTokenRepository;
-use Coddin\OpenIDConnect\Domain\Repository\OAuthClientRepository;
+use Coddin\IdentityProvider\Repository\OAuthAccessTokenRepository;
+use Coddin\IdentityProvider\Repository\OAuthClientRepository;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
 use Exception;
 use Coddin\IdentityProvider\Helper\OAuthOpenIDConnectDataHelperInterface;
@@ -52,7 +52,7 @@ final class AuthorizationController extends AbstractController
         }
 
         return $this->render(
-            'login/index.html.twig',
+            '@CoddinIdentityProvider/login/index.html.twig',
             [
                 'companyName' => $this->getParameter('idp.company_name'),
                 'lastUsername' => $authenticationUtils->getLastUsername(),

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Coddin\OpenIDConnect\Domain\Repository;
+namespace Coddin\IdentityProvider\Repository;
 
 use Coddin\IdentityProvider\Collection\OAuthAccessTokenCollection;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthAccessToken;

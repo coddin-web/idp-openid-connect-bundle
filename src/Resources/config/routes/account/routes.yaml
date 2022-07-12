@@ -1,4 +1,0 @@
-account.profile:
-  path: /profile
-  methods: GET
-  controller: IdentityProvider\Controller\AccountController::profile

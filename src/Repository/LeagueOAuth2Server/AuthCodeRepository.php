@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Coddin\IdentityProvider\Repository\LeagueOAuth2Server;
 
 use Coddin\IdentityProvider\Generator\OAuthAuthorizationCodeCreate;
-use Coddin\OpenIDConnect\Domain\Repository\OAuthAuthorizationCodeRepository;
-use Coddin\OpenIDConnect\Domain\Repository\OAuthClientRepository;
-use Coddin\OpenIDConnect\Domain\Repository\UserRepository;
+use Coddin\IdentityProvider\Repository\OAuthAuthorizationCodeRepository;
+use Coddin\IdentityProvider\Repository\OAuthClientRepository;
+use Coddin\IdentityProvider\Repository\UserRepository;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;

@@ -1,0 +1,3 @@
+imports:
+  - { resource: "@CoddinIdentityProviderBundle/config/packages/doctrine.yaml" }
+#  - { resource: "@CoddinIdentityProviderBundle/config/packages/security.yaml" }

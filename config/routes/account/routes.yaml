@@ -1,0 +1,4 @@
+coddin_identity_provider.account.profile:
+  path: /profile
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\AccountController::profile

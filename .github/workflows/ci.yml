@@ -1,0 +1,56 @@
+name: "Code analysis: style and tests"
+
+on:
+  push:
+
+jobs:
+  tests:
+    name: "PHPCS / PHPStan / PHPUnit"
+    runs-on: ubuntu-22.04
+    steps:
+      - name: "Setup PHP runner"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: ctype, iconv, json
+
+      - name: "Checkout the repo"
+        uses: actions/checkout@v2
+
+      - name: "Set composer cache"
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: "Use composer cache"
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: "Install PHP dependencies"
+        run: |
+          composer install --no-interaction --prefer-dist
+
+      - name: "Setup test db"
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306
+          mysql version: '8.0'
+          mysql database: 'idp_openid_connect_bundle_test'
+          mysql user: 'test_user'
+          mysql password: 'thisisapassword'
+
+      - name: "PHPCS / PHPStan / PHPUnit checkup"
+        run: |
+          composer checkup
+
+      - name: "Upload the result to CodeCov"
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./clover.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true

@@ -1,0 +1,39 @@
+Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthAccessToken:
+  type: entity
+  table: oauth_access_token
+  repositoryClass: Coddin\IdentityProvider\Repository\OAuthAccessTokenRepository
+  id:
+    id:
+      type: integer
+      options:
+        unsigned: true
+      generator:
+        strategy: AUTO
+  fields:
+    externalId:
+      type: string
+      length: 255
+    expiresAt:
+      type: datetime_immutable
+    revokedAt:
+      type: datetime_immutable
+      nullable: true
+  manyToOne:
+    user:
+      targetEntity: User
+      inversedBy: oAuthAccessTokens
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+        nullable: false
+    oAuthClient:
+      targetEntity: OAuthClient
+      inversedBy: oAuthAccessTokens
+      joinColumn:
+        name: oauth_client_id
+        referencedColumnName: id
+        nullable: false
+  oneToMany:
+    oAuthRefreshTokens:
+      targetEntity: OAuthRefreshToken
+      mappedBy: oAuthAccessToken

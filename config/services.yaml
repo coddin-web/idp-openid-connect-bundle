@@ -1,0 +1,57 @@
+imports:
+  - { resource: 'services/repositories.yaml' }
+
+parameters:
+  idp.company_name: '%env(COMPANY_NAME)%'
+  oidc.client.token: '%env(WEBHOOK_URL_TOKEN)%'
+  env(TRUSTED_IPS): '%env(TRUSTED_HOSTS)%'
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  Coddin\IdentityProvider\:
+    resource: '../src/'
+    exclude:
+      - '../src/Entity/'
+
+  Coddin\IdentityProvider\Entity\LeagueOAuth2Server\:
+    resource: '../src/Entity/LeagueOAuth2Server/'
+
+  # Set Controllers
+  Coddin\IdentityProvider\Controller\:
+    resource: '../src/Controller/'
+    tags: [ 'controller.service_arguments' ]
+
+  # Events
+  Coddin\IdentityProvider\EventListener\UserLocaleListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, priority: 110 }
+
+  Coddin\IdentityProvider\EventListener\LogoutListener:
+    tags:
+      - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LogoutEvent, dispatcher: security.event_dispatcher.main }
+
+  # Service wiring
+  Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory: ~
+
+  Coddin\IdentityProvider\Helper\OAuthOpenIDConnectDataHelperInterface:
+    class: Coddin\IdentityProvider\Helper\OAuthOpenIDConnectDataHelper
+    arguments:
+      $projectDir: '%kernel.project_dir%'
+
+  # Setup OAuth2 Server
+  League\OAuth2\Server\AuthorizationServer:
+    arguments:
+      $clientRepository: '@Coddin\IdentityProvider\Repository\LeagueOAuth2Server\ClientRepository'
+      $accessTokenRepository: '@Coddin\IdentityProvider\Repository\LeagueOAuth2Server\AccessTokenRepository'
+      $scopeRepository: '@Coddin\IdentityProvider\Repository\LeagueOAuth2Server\ScopeRepository'
+      $privateKey: '@=service("Coddin\\IdentityProvider\\Helper\\OAuthOpenIDConnectDataHelperInterface").privateKeyCryptKey()'
+      $encryptionKey: '@=service("Coddin\\IdentityProvider\\Helper\\OAuthOpenIDConnectDataHelperInterface").encryptionKey()'
+      $responseType: '@=service("Coddin\\IdentityProvider\\Helper\\OAuthOpenIDConnectDataHelperInterface").getResponseType()'
+
+  # Doctrine data fixtures
+  Coddin\IdentityProvider\DataFixtures\:
+    resource: '../src/DataFixtures'
+    tags: [ 'doctrine.fixtures.orm' ]

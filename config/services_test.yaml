@@ -1,0 +1,18 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  Coddin\IdentityProvider\Repository\Dbal\OAuthAccessTokenDbalRepository:
+    public: true
+  Coddin\IdentityProvider\Repository\Dbal\OAuthAuthorizationCodeDbalRepository:
+    public: true
+  Coddin\IdentityProvider\Repository\Dbal\OAuthClientDbalRepository:
+    public: true
+  Coddin\IdentityProvider\Repository\Dbal\OAuthRefreshTokenDbalRepository:
+    public: true
+  Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository:
+    public: true
+  Coddin\IdentityProvider\Repository\Dbal\UserOAuthClientDbalRepository:
+    public: true

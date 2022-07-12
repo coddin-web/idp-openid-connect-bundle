@@ -9,7 +9,9 @@
             <directory suffix=".php">./src</directory>
         </include>
         <exclude>
-            <directory>./app/Controller</directory>
+            <file>./src/CoddinIdentityProviderBundle.php</file>
+            <directory>./src/Controller</directory>
+            <directory>./src/DependencyInjection</directory>
         </exclude>
     </coverage>
 
@@ -30,7 +32,7 @@
     <php>
         <ini name="error_reporting" value="-1" />
         <server name="APP_ENV" value="test" force="true" />
-        <server name="KERNEL_CLASS" value="IdentityProvider\Kernel" />
+        <server name="KERNEL_CLASS" value="Tests\Helper\Kernel" />
         <server name="MESSENGER_TRANSPORT_DSN" value="doctrine://default" />
     </php>
 </phpunit>

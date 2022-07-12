@@ -7,7 +7,7 @@ namespace Coddin\IdentityProvider\Repository\Dbal;
 use Coddin\IdentityProvider\Collection\OAuthAccessTokenCollection;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthAccessToken;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\User;
-use Coddin\OpenIDConnect\Domain\Repository\OAuthAccessTokenRepository;
+use Coddin\IdentityProvider\Repository\OAuthAccessTokenRepository;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;

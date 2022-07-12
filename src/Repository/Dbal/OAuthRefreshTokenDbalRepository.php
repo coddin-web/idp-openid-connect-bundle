@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Coddin\IdentityProvider\Repository\Dbal;
 
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthRefreshToken;
-use Coddin\OpenIDConnect\Domain\Repository\OAuthRefreshTokenRepository;
+use Coddin\IdentityProvider\Repository\OAuthRefreshTokenRepository;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;

@@ -1,0 +1,17 @@
+coddin_identity_provider.api:
+  prefix: /identity
+  resource: 'routes/identity/routes.yaml'
+
+coddin_identity_provider.account:
+  prefix: /account
+  resource: 'routes/account/routes.yaml'
+
+coddin_identity_provider.authentication:
+  resource: 'routes/authentication/routes.yaml'
+
+coddin_identity_provider.home:
+  path: /
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+  defaults:
+    path: /login
+    permanent: true

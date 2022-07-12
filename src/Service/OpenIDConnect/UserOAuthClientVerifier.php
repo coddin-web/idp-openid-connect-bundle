@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Coddin\IdentityProvider\Service\OpenIDConnect;
 
-use Coddin\OpenIDConnect\Domain\Repository\UserOAuthClientRepository;
+use Coddin\IdentityProvider\Repository\UserOAuthClientRepository;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\UserEntityInterface;

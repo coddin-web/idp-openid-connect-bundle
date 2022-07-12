@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Coddin\IdentityProvider\MessageHandler;
 
-use Coddin\OpenIDConnect\Domain\Repository\UserRepository;
+use Coddin\IdentityProvider\Repository\UserRepository;
 use Coddin\IdentityProvider\Message\ResetPassword;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;

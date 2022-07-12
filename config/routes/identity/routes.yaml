@@ -1,0 +1,29 @@
+coddin_identity_provider.well_known:
+  path: /.well-known/openid-configuration
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\Identity\AuthorizationController::wellKnown
+
+coddin_identity_provider.jwks:
+  path: /.well-known/jwks
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\Identity\AuthorizationController::wellKnownJsonWebKeys
+
+coddin_identity_provider.authorize:
+  path: /authorize
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\Identity\AuthorizationController::authorize
+
+coddin_identity_provider.token:
+  path: /token
+  methods: POST
+  controller: Coddin\IdentityProvider\Controller\Identity\AuthorizationController::token
+
+coddin_identity_provider.introspect:
+  path: /introspect
+  methods: POST
+  controller: Coddin\IdentityProvider\Controller\Identity\AuthorizationController::introspect
+
+coddin_identity_provider.end_session:
+  path: /endsession
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\Identity\AuthorizationController::endSession

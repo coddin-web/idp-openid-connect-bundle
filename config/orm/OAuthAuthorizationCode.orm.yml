@@ -1,0 +1,37 @@
+Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthAuthorizationCode:
+  type: entity
+  table: oauth_authorization_code
+  repositoryClass: Coddin\IdentityProvider\Repository\OAuthAuthorizationCodeRepository
+  id:
+    id:
+      type: integer
+      options:
+        unsigned: true
+      generator:
+        strategy: AUTO
+  fields:
+    externalId:
+      type: string
+      length: 255
+    redirectUri:
+      type: string
+    expiresAt:
+      type: datetime_immutable
+    revokedAt:
+      type: datetime_immutable
+      nullable: true
+  manyToOne:
+    user:
+      targetEntity: User
+      inversedBy: oAuthAuthorizationCodes
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+        nullable: false
+    oAuthClient:
+      targetEntity: OAuthClient
+      inversedBy: oAuthAuthorizationCodes
+      joinColumn:
+        name: oauth_client_id
+        referencedColumnName: id
+        nullable: false

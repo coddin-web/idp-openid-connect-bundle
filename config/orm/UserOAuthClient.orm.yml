@@ -1,0 +1,27 @@
+Coddin\IdentityProvider\Entity\OpenIDConnect\UserOAuthClient:
+  type: entity
+  table: user_oauth_client
+  repositoryClass: Coddin\IdentityProvider\Repository\UserOAuthClientRepository
+  id:
+    id:
+      type: integer
+      options:
+        unsigned: true
+      generator:
+        strategy: AUTO
+  fields:
+  manyToOne:
+    user:
+      targetEntity: User
+      inversedBy: userOAuthClients
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+        nullable: false
+    oAuthClient:
+      targetEntity: OAuthClient
+      inversedBy: userOAuthClients
+      joinColumn:
+        name: oauth_client_id
+        referencedColumnName: id
+        nullable: false

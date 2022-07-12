@@ -1,0 +1,33 @@
+coddin_identity_provider.login:
+  path: /login
+  methods: GET|POST
+  controller: Coddin\IdentityProvider\Controller\Identity\AuthorizationController::login
+
+coddin_identity_provider.login_finish_oid:
+  path: /login/oidc
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\Identity\AuthorizationController::finishOpenIDConnectFlow
+
+coddin_identity_provider.app_logout:
+  path: /logout
+  methods: GET
+
+coddin_identity_provider.register:
+  path: /register
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\Identity\RegistrationController::index
+
+coddin_identity_provider.register.submit:
+  path: /register/submit
+  methods: POST
+  controller: Coddin\IdentityProvider\Controller\Identity\RegistrationController::register
+
+coddin_identity_provider.forgotten_password:
+  path: /password/forgotten
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\Identity\ForgottenPasswordController::index
+
+coddin_identity_provider.forgotten_password.submit:
+  path: /password/forgotten
+  methods: POST
+  controller: Coddin\IdentityProvider\Controller\Identity\ForgottenPasswordController::resetPassword
