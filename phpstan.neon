@@ -22,8 +22,8 @@ parameters:
         - src
         - tests
     ignoreErrors:
-#        - '#Return type of call to method PHPUnit\\Framework\\TestCase\:\:createMock\(\) contains unresolvable type.#'
-#        - '#PHPDoc tag \@var for property Tests\\[a-zA-Z0-9\\\:\$]+ contains unresolvable type.#'
+        - '#Return type of call to method PHPUnit\\Framework\\TestCase\:\:createMock\(\) contains unresolvable type.#'
+        - '#PHPDoc tag \@var for property Tests\\[a-zA-Z0-9\\\:\$]+ contains unresolvable type.#'
 
     level: 9
 
