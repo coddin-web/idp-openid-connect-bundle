@@ -1,6 +1,6 @@
 # An IdentityProvider OpenIDConnect bundle
 [![Latest Version](http://img.shields.io/packagist/v/coddin-web/idp-openid-connect-bundle.svg?style=flat-square)](https://github.com/coddin-web/idp-openid-connect-bundle/releases)
-[![Test](https://github.com/coddin-web/idp-openid-connect-bundle/actions/workflows/ci.yaml/badge.svg)](https://github.com/coddin-web/idp-openid-connect-bundle/actions/workflows/ci.yaml)
+![Build](https://github.com/coddin-web/idp-openid-connect-bundle/actions/workflows/ci.yml/badge.svg?event=push)
 [![codecov](https://codecov.io/gh/coddin-web/idp-openid-connect-bundle/branch/main/graph/badge.svg?token=BRH4XEU1VK)](https://codecov.io/gh/coddin-web/idp-openid-connect-bundle)
 
 A Symfony based IdentityProvider with OpenID Connect implemented

@@ -19,3 +19,7 @@
 # Symfony bundle
 composer.lock
 package-lock.json
+
+# PHPUnit
+/reports/
+clover.xml
