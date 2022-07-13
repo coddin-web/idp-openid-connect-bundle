@@ -58,14 +58,14 @@ final class RegistrationController extends AbstractController
 
             $request->getSession()->set('registration_errors', $errors);
 
-            return $this->redirectToRoute('register');
+            return $this->redirectToRoute('coddin_identity_provider.register');
         }
 
         $username = $postContent['username'];
         $password = $postContent['password'];
         $passwordRepeat = $postContent['password_repeat'];
         if (!\is_string($username) || !\is_string($password) || !\is_string($passwordRepeat)) {
-            return $this->redirectToRoute('register');
+            return $this->redirectToRoute('coddin_identity_provider.register');
         }
 
         $existingUser = $this->userDbalRepository->findOneByUsername($username);
@@ -77,7 +77,7 @@ final class RegistrationController extends AbstractController
 
             $request->getSession()->set('registration_errors', $errors);
 
-            return $this->redirectToRoute('register');
+            return $this->redirectToRoute('coddin_identity_provider.register');
         }
 
         if ($password !== $passwordRepeat) {
@@ -85,7 +85,7 @@ final class RegistrationController extends AbstractController
 
             $request->getSession()->set('registration_errors', $errors);
 
-            return $this->redirectToRoute('register');
+            return $this->redirectToRoute('coddin_identity_provider.register');
         }
 
         // TODO Validate password strength?
