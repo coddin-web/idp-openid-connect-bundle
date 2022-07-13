@@ -54,7 +54,10 @@ Please note that this bundle can provide default configuration for other bundles
 This bundle also comes with a fully configured security config. Please make sure this does not conflict with your own security configuration or skip using the provided config and manually import what you need.
 ___
 
-### Step 3: Include routes
+Configuring this bundle
+----------------------------------------
+
+### Step 1: Include routes
 
 This bundle provides routes needed for the OpenIDConnect flow to work, you can import them like so:
 
@@ -65,7 +68,7 @@ idp:
   prefix: /
 ```
 
-### Step 4: Include default configs:
+### Step 2: Include default configs:
 
 ___Note: this step can be skipped if you decide to configure certain bundles (like DoctrineBundle and SecurityBundle, etc) yourself.___
 
@@ -75,9 +78,22 @@ imports:
   - { resource: "@CoddinIdentityProviderBundle/config/config.yaml" }
 ```
 
-### Step 5: Database
+___
+Please note that when including this configuration you need to remove your application security.yaml file.
+___
+
+### Step 3: Database
 
 This bundle needs specific tables to exist for the OAuth flow to work. They can either be "brute forced" in your application by running `bin/console doctrine:schema:update --force` (which I do not recommend) or within your application you can run `bin/console doctrine:migrations:diff` to create the needed migrations to update your application with the needed tables.
+
+### Environment variables
+
+This bundle uses environment variables to configure certain aspects:
+
+|    Variable     |                                                 Description                                                 |
+|:---------------:|:-----------------------------------------------------------------------------------------------------------:|
+| `TRUSTED_HOSTS` | This variable is used to protect the [`introspect`](https://datatracker.ietf.org/doc/html/rfc7662) endpoint |
+| `COMPANY_NAME`  |                          This variable is used to customize the default templates                           |
 
 ## Final thoughts
 
