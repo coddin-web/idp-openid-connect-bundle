@@ -5,12 +5,87 @@
 
 A Symfony bundle to set up an IdentityProvider with OpenID Connect implemented
 
-### FIX ME ####
+Installation
+============
 
-Routing instellen doe je door een import
-Services kan je importeren
-Doctrine importeer je dan auto mee
+Make sure Composer is installed globally, as explained in the
+[installation chapter](https://getcomposer.org/doc/00-intro.md)
+of the Composer documentation.
 
-Het project heeft een config/openidconnect/keys/ dir nodig met daarin een private en public key
-Voor testing doeleinden zitten er twee keys bij de bundle om lokaal te gebruiken
-GEBRUIK DEZE NIET IN PRODUCTIE
+Applications that use Symfony Flex
+----------------------------------
+
+Open a command console, enter your project directory and execute:
+
+```console
+$ composer require <package-name>
+```
+
+Applications that don't use Symfony Flex
+----------------------------------------
+
+### Step 1: Download the Bundle
+
+Open a command console, enter your project directory and execute the
+following command to download the latest stable version of this bundle:
+
+```console
+$ composer require <package-name>
+```
+
+### Step 2: Enable the Bundle
+
+Then, enable the bundle by adding it to the list of registered bundles
+in the `config/bundles.php` file of your project:
+
+```php
+// config/bundles.php
+
+return [
+    // ...
+    Coddin\IdentityProvider\CoddinIdentityProviderBundle::class => ['all' => true],
+    // ...
+];
+```
+
+___
+Please note that this bundle can provide default configuration for other bundles (like doctrine and messenger). To make this work this bundle should be registered before other bundles.
+
+This bundle also comes with a fully configured security config. Please make sure this does not conflict with your own security configuration or skip using the provided config and manually import what you need.
+___
+
+### Step 3: Include routes
+
+This bundle provides routes needed for the OpenIDConnect flow to work, you can import them like so:
+
+```yaml
+# config/routes.yaml
+idp:
+  resource: "@CoddinIdentityProviderBundle/config/routes.yaml"
+  prefix: /
+```
+
+### Step 4: Include default configs:
+
+___Note: this step can be skipped if you decide to configure certain bundles (like DoctrineBundle and SecurityBundle, etc) yourself.___
+
+```yaml
+# config/packages/coddin_identity_provider.yaml
+imports:
+  - { resource: "@CoddinIdentityProviderBundle/config/config.yaml" }
+```
+
+### Step 5: Database
+
+This bundle needs specific tables to exist for the OAuth flow to work. They can either be "brute forced" in your application by running `bin/console doctrine:schema:update --force` (which I do not recommend) or within your application you can run `bin/console doctrine:migrations:diff` to create the needed migrations to update your application with the needed tables.
+
+## Final thoughts
+
+This bundle comes with keys (which are needed by OAuth2 to sign the requests) located in the `config/openidconnect/keys` directory of the bundle.
+*DO NOT* use these keys on a production environment but replace them during your build.
+
+## Additional Resources
+
+[https://github.com/steverhoades/oauth2-openid-connect-server](https://github.com/steverhoades/oauth2-openid-connect-server) - The core of this bundle
+[https://github.com/thephpleague/oauth2-server](https://github.com/thephpleague/oauth2-server) - The base of the OpenIDConnect server library
+[https://tailwindcss.com/](https://tailwindcss.com/) - Used as base for of the default templates
