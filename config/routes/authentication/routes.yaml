@@ -8,7 +8,7 @@ coddin_identity_provider.login_finish_oid:
   methods: GET
   controller: Coddin\IdentityProvider\Controller\Identity\AuthorizationController::finishOpenIDConnectFlow
 
-coddin_identity_provider.app_logout:
+coddin_identity_provider.logout:
   path: /logout
   methods: GET
 

@@ -16,11 +16,11 @@ final class CoddinIdentityProviderExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
+        $locator = new FileLocator(dirname(__FILE__) . '/../../config');
         $loader = new YamlFileLoader(
             container: $container,
-            locator: new FileLocator(__DIR__ . '/../../config'),
+            locator: $locator,
         );
-
         $loader->load('services.yaml');
     }
 }

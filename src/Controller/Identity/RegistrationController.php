@@ -98,6 +98,6 @@ final class RegistrationController extends AbstractController
         $this->messageBus->dispatch(new UserRegistered($user->getId()));
 
         // TODO Thank you / help / start at new application page?
-        return $this->redirectToRoute('login');
+        return $this->redirectToRoute('coddin_identity_provider.login');
     }
 }

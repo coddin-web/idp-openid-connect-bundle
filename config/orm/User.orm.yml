@@ -1,7 +1,7 @@
 Coddin\IdentityProvider\Entity\OpenIDConnect\User:
   type: entity
   table: user
-  repositoryClass: Coddin\OpenIDConnect\Infrastructure\Persistence\Doctrine\Dbal\UserDbalRepository
+  repositoryClass: Coddin\IdentityProvider\Repository\UserRepository
   id:
     id:
       type: integer

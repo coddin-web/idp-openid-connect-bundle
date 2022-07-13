@@ -7,11 +7,13 @@ services:
   Coddin\IdentityProvider\Repository\Dbal\OAuthAccessTokenDbalRepository:
     arguments:
       - '@doctrine'
+      - '@doctrine.orm.entity_manager.abstract'
   Coddin\IdentityProvider\Repository\OAuthAccessTokenRepository: '@Coddin\IdentityProvider\Repository\Dbal\OAuthAccessTokenDbalRepository'
 
   Coddin\IdentityProvider\Repository\Dbal\OAuthAuthorizationCodeDbalRepository:
     arguments:
       - '@doctrine'
+      - '@doctrine.orm.entity_manager.abstract'
   Coddin\IdentityProvider\Repository\OAuthAuthorizationCodeRepository: '@Coddin\IdentityProvider\Repository\Dbal\OAuthAuthorizationCodeDbalRepository'
 
   Coddin\IdentityProvider\Repository\Dbal\OAuthClientDbalRepository:
@@ -22,14 +24,18 @@ services:
   Coddin\IdentityProvider\Repository\Dbal\OAuthRefreshTokenDbalRepository:
     arguments:
       - '@doctrine'
+      - '@doctrine.orm.entity_manager.abstract'
   Coddin\IdentityProvider\Repository\OAuthRefreshTokenRepository: '@Coddin\IdentityProvider\Repository\Dbal\OAuthRefreshTokenDbalRepository'
 
   Coddin\IdentityProvider\Repository\Dbal\UserOAuthClientDbalRepository:
     arguments:
       - '@doctrine'
+      - '@doctrine.orm.entity_manager.abstract'
   Coddin\IdentityProvider\Repository\UserOAuthClientRepository: '@Coddin\IdentityProvider\Repository\Dbal\UserOAuthClientDbalRepository'
 
-  Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository:
+  Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository: ~
+  Coddin\IdentityProvider\Repository\UserRepository:
+    class: 'Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository'
+    tags: [ 'doctrine.repository_service' ]
     arguments:
-      - '@doctrine'
-  Coddin\IdentityProvider\Repository\UserRepository: '@Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository'
+      [ '@doctrine', '@doctrine.orm.entity_manager' ]

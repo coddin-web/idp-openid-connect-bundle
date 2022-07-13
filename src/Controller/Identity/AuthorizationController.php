@@ -68,13 +68,13 @@ final class AuthorizationController extends AbstractController
         Security $security,
     ): Response {
         if (!$security->getUser() instanceof UserInterface) {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('coddin_identity_provider.login');
         }
 
         // If we got here with an authenticated user but do not have an authorizationRequest, the login
         // must have happened on the IDP.
         if ($this->openIDConnectRequestHandler->hasCurrentAuthorizationRequest() === false) {
-            return $this->redirectToRoute('account.profile');
+            return $this->redirectToRoute('coddin_identity_provider.account.profile');
         }
 
         return $this->openIDConnectRequestHandler->completeAuthorizationRequest($security);

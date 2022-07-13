@@ -1,4 +1,4 @@
-coddin_identity_provider.api:
+coddin_identity_provider.idp:
   prefix: /identity
   resource: 'routes/identity/routes.yaml'
 

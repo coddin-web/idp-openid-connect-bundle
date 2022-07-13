@@ -1,0 +1,4 @@
+parameters:
+  idp.company_name: '%env(COMPANY_NAME)%'
+  oidc.client.token: '%env(WEBHOOK_URL_TOKEN)%'
+  env(TRUSTED_IPS): '%env(TRUSTED_HOSTS)%'

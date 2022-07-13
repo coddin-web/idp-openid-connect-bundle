@@ -1,10 +1,6 @@
 imports:
+  - { resource: 'services/parameters.yaml' }
   - { resource: 'services/repositories.yaml' }
-
-parameters:
-  idp.company_name: '%env(COMPANY_NAME)%'
-  oidc.client.token: '%env(WEBHOOK_URL_TOKEN)%'
-  env(TRUSTED_IPS): '%env(TRUSTED_HOSTS)%'
 
 services:
   _defaults:
@@ -31,7 +27,7 @@ services:
 
   Coddin\IdentityProvider\EventListener\LogoutListener:
     tags:
-      - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LogoutEvent, dispatcher: security.event_dispatcher.main }
+      - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LogoutEvent, dispatcher: security.event_dispatcher.cidp_main }
 
   # Service wiring
   Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory: ~

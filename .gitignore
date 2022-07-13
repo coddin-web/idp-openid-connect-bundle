@@ -23,3 +23,5 @@ package-lock.json
 # PHPUnit
 /reports/
 clover.xml
+
+.env.*.local
