@@ -18,7 +18,7 @@ Applications that use Symfony Flex
 Open a command console, enter your project directory and execute:
 
 ```console
-$ composer require <package-name>
+$ composer require coddin-web/idp-openid-connect-bundle
 ```
 
 Applications that don't use Symfony Flex
@@ -30,7 +30,7 @@ Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
 
 ```console
-$ composer require <package-name>
+$ composer require coddin-web/idp-openid-connect-bundle
 ```
 
 ### Step 2: Enable the Bundle
@@ -82,9 +82,19 @@ ___
 Please note that when including this configuration you need to remove your application security.yaml file.
 ___
 
-### Step 3: Database
+### Step 3: Templates
+
+For this template to work out-of-the-box webpack needs to be installed and a build needs to have taken place. This can be done with `npm install && npm run ENVIRONMENT`
+
+### Step 4: Database
 
 This bundle needs specific tables to exist for the OAuth flow to work. They can either be "brute forced" in your application by running `bin/console doctrine:schema:update --force` (which I do not recommend) or within your application you can run `bin/console doctrine:migrations:diff` to create the needed migrations to update your application with the needed tables.
+
+### Step 5: Cache
+
+The Symfony cache needs to be cleared before this module will be fully operational. This can be done with `bin/console cache:clear` If errors keep popping up try removing the cache by hand `rm -rf var/cache/*`
+
+***Please be careful when doing this in a production environment***
 
 ### Environment variables
 
