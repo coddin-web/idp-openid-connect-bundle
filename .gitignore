@@ -13,9 +13,6 @@
 # Managed by Composer
 /vendor/
 
-# Build data
-/public/build/
-
 # Symfony bundle
 composer.lock
 package-lock.json

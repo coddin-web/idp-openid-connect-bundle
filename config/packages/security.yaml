@@ -17,7 +17,7 @@ security:
       pattern: ^/(_(profiler|wdt|error)|css|images|js)/
       security: false
 
-    cidp_main:
+    main:
       lazy: true
       provider: cidp_app_user_provider
 

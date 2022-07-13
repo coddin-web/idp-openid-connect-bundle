@@ -27,7 +27,7 @@ services:
 
   Coddin\IdentityProvider\EventListener\LogoutListener:
     tags:
-      - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LogoutEvent, dispatcher: security.event_dispatcher.cidp_main }
+      - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LogoutEvent, dispatcher: security.event_dispatcher.main }
 
   # Service wiring
   Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory: ~
