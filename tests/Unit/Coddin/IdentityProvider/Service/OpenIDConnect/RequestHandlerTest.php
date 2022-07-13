@@ -409,7 +409,6 @@ final class RequestHandlerTest extends TestCase
     /**
      * @test
      * @covers ::hasCurrentAuthorizationRequest
-     * @covers \Coddin\IdentityProvider\Service\OpenIDConnect\RequestHandler::hasCurrentAuthorizationRequest
      */
     public function has_current_AuthorizationRequest(): void
     {
@@ -433,7 +432,6 @@ final class RequestHandlerTest extends TestCase
      * @test
      * @covers ::completeAuthorizationRequest
      * @covers ::getCurrentAuthorizationRequest
-     * @covers \Coddin\IdentityProvider\Service\OpenIDConnect\RequestHandler::completeAuthorizationRequest
      */
     public function complete_authorization_request_user_not_authenticated(): void
     {
@@ -451,7 +449,7 @@ final class RequestHandlerTest extends TestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Service\OpenIDConnect\RequestHandler::completeAuthorizationRequest
+     * @covers ::completeAuthorizationRequest
      * @noinspection PhpUnhandledExceptionInspection
      */
     public function complete_authorization_request(): void

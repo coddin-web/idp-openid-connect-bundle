@@ -8,11 +8,14 @@ use Coddin\IdentityProvider\Service\Psr7Message\Psr7Factory;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
 
+/**
+ * @coversDefaultClass \Coddin\IdentityProvider\Service\Psr7Message\Psr7Factory
+ */
 final class Psr7FactoryTest extends TestCase
 {
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Service\Psr7Message\Psr7Factory::create
+     * @covers ::create
      */
     public function create(): void
     {

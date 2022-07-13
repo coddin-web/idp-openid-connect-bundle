@@ -12,6 +12,10 @@ use Coddin\IdentityProvider\Repository\Dbal\OAuthClientDbalRepository;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
+/**
+ * @coversDefaultClass \Coddin\IdentityProvider\Repository\Dbal\OAuthClientDbalRepository
+ * @covers ::__construct
+ */
 final class OAuthClientDbalRepositoryTest extends KernelTestCase
 {
     private OAuthClientDbalRepository $repository;
@@ -27,8 +31,7 @@ final class OAuthClientDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\OAuthClientDbalRepository::__construct
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\OAuthClientDbalRepository::getOneByExternalId
+     * @covers ::getOneByExternalId
      */
     public function get_one_by_external_id_not_found(): void
     {
@@ -39,8 +42,7 @@ final class OAuthClientDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\OAuthClientDbalRepository::__construct
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\OAuthClientDbalRepository::getOneByExternalId
+     * @covers ::getOneByExternalId
      */
     public function get_one_by_external_id(): void
     {
@@ -53,8 +55,7 @@ final class OAuthClientDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\OAuthClientDbalRepository::__construct
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\OAuthClientDbalRepository::getAll
+     * @covers ::getAll
      */
     public function get_all(): void
     {

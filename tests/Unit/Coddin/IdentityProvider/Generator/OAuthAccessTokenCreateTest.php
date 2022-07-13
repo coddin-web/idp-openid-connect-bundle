@@ -9,11 +9,14 @@ use Coddin\IdentityProvider\Entity\OpenIDConnect\User;
 use Coddin\IdentityProvider\Generator\OAuthAccessTokenCreate;
 use Tests\TestCase;
 
+/**
+ * @coversDefaultClass \Coddin\IdentityProvider\Generator\OAuthAccessTokenCreate
+ */
 final class OAuthAccessTokenCreateTest extends TestCase
 {
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Generator\OAuthAccessTokenCreate::create
+     * @covers ::create
      */
     public function create_the_access_token(): void
     {

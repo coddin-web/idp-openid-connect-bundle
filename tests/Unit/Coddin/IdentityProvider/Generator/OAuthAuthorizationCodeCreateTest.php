@@ -9,11 +9,14 @@ use Coddin\IdentityProvider\Entity\OpenIDConnect\User;
 use Coddin\IdentityProvider\Generator\OAuthAuthorizationCodeCreate;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversDefaultClass \Coddin\IdentityProvider\Generator\OAuthAuthorizationCodeCreate
+ */
 final class OAuthAuthorizationCodeCreateTest extends TestCase
 {
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Generator\OAuthAuthorizationCodeCreate::create
+     * @covers ::create
      */
     public function create_the_authorization_code(): void
     {

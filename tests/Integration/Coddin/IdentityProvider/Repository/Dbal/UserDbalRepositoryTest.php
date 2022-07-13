@@ -8,6 +8,7 @@ namespace Tests\Integration\Coddin\OpenIDConnect\Infrastructure\Persistence\Doct
 
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthClient;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\User;
+use Coddin\IdentityProvider\Entity\OpenIDConnect\UserOAuthClient;
 use Coddin\IdentityProvider\Generator\OAuthClientCreate;
 use Coddin\IdentityProvider\DataFixtures\Data\User as DataUser;
 use Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository;
@@ -15,6 +16,9 @@ use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
+/**
+ * @coversDefaultClass \Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository
+ */
 final class UserDbalRepositoryTest extends KernelTestCase
 {
     private UserDbalRepository $repository;
@@ -35,7 +39,7 @@ final class UserDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository::create
+     * @covers ::create
      */
     public function create_a_user(): void
     {
@@ -46,7 +50,7 @@ final class UserDbalRepositoryTest extends KernelTestCase
             email: 'foo@bar.org',
         );
 
-        /** @var \Coddin\IdentityProvider\Entity\OpenIDConnect\User $user */
+        /** @var User $user */
         $user = $this->repository->findOneByUsername('username.dbaltest');
 
         self::assertEquals('foo@bar.org', $user->getEmail());
@@ -57,7 +61,7 @@ final class UserDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository::findOneByUsername
+     * @covers ::findOneByUsername
      */
     public function find_one_by_username(): void
     {
@@ -70,7 +74,7 @@ final class UserDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository::getOneById
+     * @covers ::getOneById
      */
     public function get_one_by_id_non_existing(): void
     {
@@ -80,7 +84,7 @@ final class UserDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository::getOneById
+     * @covers ::getOneById
      * @noinspection PhpUnhandledExceptionInspection
      */
     public function get_one_by_id(): void
@@ -92,11 +96,11 @@ final class UserDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository::getOneByUuid
+     * @covers ::getOneByUuid
      */
     public function get_one_by_uuid_non_existing(): void
     {
-        /** @var \Coddin\IdentityProvider\Entity\OpenIDConnect\User $user */
+        /** @var User $user */
         $user = $this->repository->findOneByUsername(DataUser::UserName->value);
         $uuid = $user->getUuid();
 
@@ -106,7 +110,7 @@ final class UserDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository::getOneByUuid
+     * @covers ::getOneByUuid
      * @noinspection PhpUnhandledExceptionInspection
      */
     public function get_one_by_uuid(): void
@@ -122,7 +126,7 @@ final class UserDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository::assignToOAuthClients
+     * @covers ::assignToOAuthClients
      */
     public function assign_to_OAuthClients(): void
     {
@@ -136,14 +140,14 @@ final class UserDbalRepositoryTest extends KernelTestCase
         $this->entityManager->persist($createOAuthClient);
         $this->entityManager->flush();
 
-        /** @var \Coddin\IdentityProvider\Entity\OpenIDConnect\User $user */
+        /** @var User $user */
         $user = $this->repository->findOneByUsername(DataUser::UserName->value);
 
         $this->repository->assignToOAuthClients($user, $createOAuthClient);
 
-        /** @var \Coddin\IdentityProvider\Entity\OpenIDConnect\User $user */
+        /** @var User $user */
         $user = $this->repository->findOneByUsername(DataUser::UserName->value);
-        /** @var \Coddin\IdentityProvider\Entity\OpenIDConnect\UserOAuthClient $userAssignedOauthClient */
+        /** @var UserOAuthClient $userAssignedOauthClient */
         $userAssignedOauthClient = $user->getUserOAuthClients()[1];
         $oauthClient = $userAssignedOauthClient->getOAuthClient();
 

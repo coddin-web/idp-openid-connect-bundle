@@ -11,11 +11,14 @@ use Coddin\IdentityProvider\Generator\UserCreate;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversDefaultClass \Coddin\IdentityProvider\Generator\OAuthRefreshTokenCreate
+ */
 final class OAuthRefreshTokenCreateTest extends TestCase
 {
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Generator\OAuthRefreshTokenCreate::create
+     * @covers ::create
      */
     public function create_the_refreshToken(): void
     {

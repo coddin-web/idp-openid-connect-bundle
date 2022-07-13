@@ -24,6 +24,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
+/**
+ * @coversDefaultClass \Coddin\IdentityProvider\MessageHandler\UserRegisteredHandler
+ */
 final class UserRegisteredHandlerTest extends TestCase
 {
     /** @var UserRepository & MockObject $userRepository */
@@ -48,7 +51,7 @@ final class UserRegisteredHandlerTest extends TestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\MessageHandler\UserRegisteredHandler::__invoke
+     * @covers ::__invoke
      */
     public function no_oauth_clients(): void
     {
@@ -73,8 +76,8 @@ final class UserRegisteredHandlerTest extends TestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\MessageHandler\UserRegisteredHandler::__invoke
-     * @covers \Coddin\IdentityProvider\MessageHandler\UserRegisteredHandler::logError
+     * @covers ::__invoke
+     * @covers ::logError
      */
     public function cannot_find_user(): void
     {
@@ -111,8 +114,8 @@ final class UserRegisteredHandlerTest extends TestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\MessageHandler\UserRegisteredHandler::__invoke
-     * @covers \Coddin\IdentityProvider\MessageHandler\UserRegisteredHandler::logError
+     * @covers ::__invoke
+     * @covers ::logError
      */
     public function missing_bearer_token(): void
     {
@@ -168,8 +171,8 @@ final class UserRegisteredHandlerTest extends TestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\MessageHandler\UserRegisteredHandler::__invoke
-     * @covers \Coddin\IdentityProvider\MessageHandler\UserRegisteredHandler::logError
+     * @covers ::__invoke
+     * @covers ::logError
      */
     public function process_oauth_clients(): void
     {

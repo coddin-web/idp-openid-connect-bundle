@@ -18,6 +18,9 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @coversDefaultClass \Coddin\IdentityProvider\MessageHandler\ResetPasswordHandler
+ */
 final class ResetPasswordHandlerTest extends TestCase
 {
     /** @var MailerInterface & MockObject */
@@ -36,7 +39,7 @@ final class ResetPasswordHandlerTest extends TestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\MessageHandler\ResetPasswordHandler::__invoke
+     * @covers ::__invoke
      * @noinspection PhpUnhandledExceptionInspection
      */
     public function no_user(): void
@@ -59,7 +62,7 @@ final class ResetPasswordHandlerTest extends TestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\MessageHandler\ResetPasswordHandler::__invoke
+     * @covers ::__invoke
      * @noinspection PhpUnhandledExceptionInspection
      */
     public function email_sent(): void

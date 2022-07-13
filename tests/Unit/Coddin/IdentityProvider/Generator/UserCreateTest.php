@@ -9,12 +9,15 @@ namespace Tests\Unit\Coddin\OpenIDConnect\Domain\Generator;
 use Coddin\IdentityProvider\Generator\UserCreate;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversDefaultClass \Coddin\IdentityProvider\Generator\UserCreate
+ */
 final class UserCreateTest extends TestCase
 {
     /**
      * @test
      * @noinspection PhpUnhandledExceptionInspection
-     * @covers \Coddin\IdentityProvider\Generator\UserCreate::create
+     * @covers ::create
      */
     public function create_the_user(): void
     {

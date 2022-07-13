@@ -9,13 +9,16 @@ namespace Tests\Unit\IdentityProvider\Service\OpenIDConnect;
 use Coddin\IdentityProvider\Service\OpenIDConnect\ConfigGenerator;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversDefaultClass \Coddin\IdentityProvider\Service\OpenIDConnect\ConfigGenerator
+ */
 final class ConfigGeneratorTest extends TestCase
 {
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Service\OpenIDConnect\ConfigGenerator::asArray
-     * @covers \Coddin\IdentityProvider\Service\OpenIDConnect\ConfigGenerator::asJson
-     * @covers \Coddin\IdentityProvider\Service\OpenIDConnect\ConfigGenerator::create
+     * @covers ::asArray
+     * @covers ::asJson
+     * @covers ::create
      * @noinspection PhpUnhandledExceptionInspection
      */
     public function create_and_verify_output(): void

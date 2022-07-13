@@ -13,6 +13,9 @@ use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
+/**
+ * @coversDefaultClass \Coddin\IdentityProvider\Repository\Dbal\OAuthAccessTokenDbalRepository
+ */
 final class OAuthAccessTokenDbalRepositoryTest extends KernelTestCase
 {
     private OAuthAccessTokenDbalRepository $repository;
@@ -37,7 +40,7 @@ final class OAuthAccessTokenDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\OAuthAccessTokenDbalRepository::getOneByExternalId
+     * @covers ::getOneByExternalId
      */
     public function get_one_by_external_id_not_found(): void
     {
@@ -51,7 +54,7 @@ final class OAuthAccessTokenDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\OAuthAccessTokenDbalRepository::getOneByExternalId
+     * @covers ::getOneByExternalId
      */
     public function get_one_by_external_id(): void
     {
@@ -67,7 +70,7 @@ final class OAuthAccessTokenDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\OAuthAccessTokenDbalRepository::findAllActiveForUser
+     * @covers ::findAllActiveForUser
      */
     public function find_all_active_for_user(): void
     {
@@ -81,7 +84,7 @@ final class OAuthAccessTokenDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\OAuthAccessTokenDbalRepository::revoke
+     * @covers ::revoke
      */
     public function revoke(): void
     {
@@ -101,7 +104,7 @@ final class OAuthAccessTokenDbalRepositoryTest extends KernelTestCase
 
     /**
      * @test
-     * @covers \Coddin\IdentityProvider\Repository\Dbal\OAuthAccessTokenDbalRepository::revokeAllActiveForUser
+     * @covers ::revokeAllActiveForUser
      */
     public function revoke_all_active_for_user(): void
     {
