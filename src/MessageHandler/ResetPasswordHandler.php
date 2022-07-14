@@ -43,7 +43,7 @@ final class ResetPasswordHandler
         $email = (new TemplatedEmail())
             ->to(new Address($username, $user->getUsername()))
             ->subject($this->translator->trans(id: 'email.reset_password.subject', locale: $resetPassword->getLocale()))
-            ->htmlTemplate('email/reset_password.html.twig')
+            ->htmlTemplate('@CoddinIdentityProvider/email/reset_password.html.twig')
             ->context([
                 'labels' => [
                     'salutation' => $this->translator->trans(
