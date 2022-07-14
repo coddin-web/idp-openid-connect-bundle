@@ -112,6 +112,13 @@ There are also a few environment variables that are needed out of the box:
 |       `MAILER_DSN`        |              This is needed for the password reset              |
 | `MESSENGER_TRANSPORT_DSN` | This is needed for the asynchronous processes this bundle uses  |
 
+### Message Queue / Supervisor
+
+This bundle uses asynchronous events to not block the end-user with possible hiccups of certain processes. Therefor it is needed to run a message queue.
+It is recommended to use e.g. [supervisor](http://supervisord.org/) to run Symfony's Messenger queue like so: `bin/console messenger:consume async` 
+
+By importing this bundle's configuration (see [Step 2](#step-2-include-default-configs)) the Messages will be configured for you.
+
 ## Final thoughts
 
 This bundle comes with keys (which are needed by OAuth2 to sign the requests) located in the `config/openidconnect/keys` directory of the bundle.
