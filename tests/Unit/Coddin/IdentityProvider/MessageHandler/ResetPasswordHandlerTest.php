@@ -85,7 +85,7 @@ final class ResetPasswordHandlerTest extends TestCase
             ->method('trans')
             ->withConsecutive(
                 ['email.reset_password.subject', [], null, 'en'],
-                ['email.reset_password.salutation', ['username' => $username], null, 'en'],
+                ['email.reset_password.salutation', ['%username%' => $username], null, 'en'],
             );
 
         $this->mailer

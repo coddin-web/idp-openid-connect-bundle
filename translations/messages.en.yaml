@@ -13,6 +13,7 @@ account:
     password: Password
     password_repeat: Password repeat
     existing_user: Already have an account?
+    error.existing_user: User with username %username% already exists, maybe you forgot your password?
     sign_in: Login!
     register: Register
   password:

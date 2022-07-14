@@ -1,0 +1,29 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+
+  # More control over the autoloaded Serializer.
+  serializer.denormalizer.array:
+    class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+  serializer.normalizer.constraint_violation_list:
+    class: Symfony\Component\Serializer\Normalizer\ConstraintViolationListNormalizer
+    tags: [ serializer.normalizer ]
+  serializer.name_converter.camel_case_to_snake_case:
+    class: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
+  serializer.normalizer.get_set_method:
+    class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
+    tags: [ serializer.normalizer ]
+    arguments:
+      $nameConverter: '@serializer.name_converter.camel_case_to_snake_case'
+
+  serializer.encoder.json:
+    class: Symfony\Component\Serializer\Encoder\JsonEncoder
+    tags: [ serializer.encoder ]
+
+  Symfony\Component\Serializer\Normalizer\DenormalizerInterface:
+    class: Symfony\Component\Serializer\Serializer
+    tags: [ serializer ]
+    arguments:
+      - [ '@serializer.normalizer.get_set_method', '@serializer.denormalizer.array', '@serializer.normalizer.constraint_violation_list' ]
+      - [ '@serializer.encoder.json' ]

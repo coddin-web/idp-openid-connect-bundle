@@ -1,6 +1,7 @@
 imports:
   - { resource: 'services/parameters.yaml' }
   - { resource: 'services/repositories.yaml' }
+  - { resource: 'services/serializer.yaml' }
 
 services:
   _defaults:
@@ -36,6 +37,10 @@ services:
     class: Coddin\IdentityProvider\Helper\OAuthOpenIDConnectDataHelper
     arguments:
       $projectDir: '%kernel.project_dir%'
+
+  Coddin\IdentityProvider\Request\Validation\RequestObjectResolver:
+    tags:
+      - { name: controller.argument_value_resolver, priority: 50 }
 
   # Setup OAuth2 Server
   League\OAuth2\Server\AuthorizationServer:

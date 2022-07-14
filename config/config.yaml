@@ -1,4 +1,5 @@
 imports:
   - { resource: "@CoddinIdentityProviderBundle/config/packages/doctrine.yaml" }
+  - { resource: "@CoddinIdentityProviderBundle/config/packages/mailer.yaml" }
   - { resource: "@CoddinIdentityProviderBundle/config/packages/messenger.yaml" }
   - { resource: "@CoddinIdentityProviderBundle/config/packages/security.yaml" }

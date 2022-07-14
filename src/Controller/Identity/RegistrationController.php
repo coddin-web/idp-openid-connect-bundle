@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Coddin\IdentityProvider\Controller\Identity;
 
-use Assert\Assertion;
-use Assert\AssertionFailedException;
 use Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository;
 use Coddin\IdentityProvider\Message\UserRegistered;
+use Coddin\IdentityProvider\Request\UserRegistration;
 use Safe\Exceptions\JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class RegistrationController extends AbstractController
 {
     public function __construct(
         private readonly UserDbalRepository $userDbalRepository,
         private readonly MessageBusInterface $messageBus,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -44,51 +45,26 @@ final class RegistrationController extends AbstractController
      * @throws JsonException
      */
     public function register(
-        Request $request,
+        UserRegistration $userRegistration,
     ): Response {
-        $errors = [];
-        $postContent = $request->request->all();
-
-        try {
-            Assertion::keyExists($postContent, 'username');
-            Assertion::keyExists($postContent, 'password');
-            Assertion::keyExists($postContent, 'password_repeat');
-        } catch (AssertionFailedException) {
-            $errors['general'] = 'Missing required field(s)';
-
-            $request->getSession()->set('registration_errors', $errors);
-
-            return $this->redirectToRoute('coddin_identity_provider.register');
-        }
-
-        $username = $postContent['username'];
-        $password = $postContent['password'];
-        $passwordRepeat = $postContent['password_repeat'];
-        if (!\is_string($username) || !\is_string($password) || !\is_string($passwordRepeat)) {
-            return $this->redirectToRoute('coddin_identity_provider.register');
-        }
+        $username = $userRegistration->getUsername();
+        $password = $userRegistration->getPassword();
 
         $existingUser = $this->userDbalRepository->findOneByUsername($username);
         if ($existingUser !== null) {
-            $errors['general'] = sprintf(
-                'User with username `%s` already exists, maybe you forgot your password?',
-                $username,
+            $this->addFlash(
+                type: 'error',
+                message: $this->translator->trans(
+                    id: 'account.register.error.existing_user',
+                    parameters: [
+                        '%username%' => $username,
+                    ],
+                ),
             );
 
-            $request->getSession()->set('registration_errors', $errors);
-
             return $this->redirectToRoute('coddin_identity_provider.register');
         }
 
-        if ($password !== $passwordRepeat) {
-            $errors['general'] = 'Passwords do not match';
-
-            $request->getSession()->set('registration_errors', $errors);
-
-            return $this->redirectToRoute('coddin_identity_provider.register');
-        }
-
-        // TODO Validate password strength?
         $user = $this->userDbalRepository->create(
             username: $username,
             password: $password,

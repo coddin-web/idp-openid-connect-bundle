@@ -82,9 +82,20 @@ ___
 Please note that when including this configuration you need to remove your application security.yaml file.
 ___
 
+Or you could import the individual configuration files like so:
+
+```yaml
+# config/packages/coddin_identity_provider.yaml
+imports:
+  # ...
+  - { resource: "@CoddinIdentityProviderBundle/config/packages/messenger.yaml" }
+```
+
 ### Step 3: Templates
 
-For this template to work out-of-the-box webpack needs to be installed and a build needs to have taken place. This can be done with `npm install && npm run ENVIRONMENT`
+The templates need the assets provided by the bundle, they can be installed via:
+
+`bin/console assets:install --symlink`
 
 ### Step 4: Database
 
@@ -104,6 +115,7 @@ This bundle uses environment variables to configure certain aspects:
 |:---------------:|:-----------------------------------------------------------------------------------------------------------:|
 | `TRUSTED_HOSTS` | This variable is used to protect the [`introspect`](https://datatracker.ietf.org/doc/html/rfc7662) endpoint |
 | `COMPANY_NAME`  |                          This variable is used to customize the default templates                           |
+| `IDP_MAIL_FROM` |                        This variable is used as the global "from" header for emails                         |
 
 There are also a few environment variables that are needed out of the box:
 
@@ -124,8 +136,20 @@ By importing this bundle's configuration (see [Step 2](#step-2-include-default-c
 This bundle comes with keys (which are needed by OAuth2 to sign the requests) located in the `config/openidconnect/keys` directory of the bundle.
 *DO NOT* use these keys on a production environment but replace them during your build.
 
+TODO: Explain creation/usage of keys...
+
+## Supported languages
+
+Out of the box this module supports detection of the locale via the browser.
+
+Two languages are supported: Dutch and English
+
 ## Additional Resources
 
 [https://github.com/steverhoades/oauth2-openid-connect-server](https://github.com/steverhoades/oauth2-openid-connect-server) - The core of this bundle
 [https://github.com/thephpleague/oauth2-server](https://github.com/thephpleague/oauth2-server) - The base of the OpenIDConnect server library
 [https://tailwindcss.com/](https://tailwindcss.com/) - Used as base for of the default templates
+
+## License
+
+The MIT License (MIT). Please see [License File](https://github.com/coddin-web/idp-openid-connect-bundle/blob/master/LICENSE) for more information.

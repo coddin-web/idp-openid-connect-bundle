@@ -13,6 +13,7 @@ account:
     password: Wachtwoord
     password_repeat: Herhaal wachtwoord
     existing_user: Heb je al een account?
+    error.existing_user: De gebruiker met gebruikersnaam %username% bestaat al, misschien ben je je wachtwoord vergeten?
     sign_in: Log in!
     register: Registreer
   password:

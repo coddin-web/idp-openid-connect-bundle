@@ -48,7 +48,7 @@ final class ResetPasswordHandler
                 'labels' => [
                     'salutation' => $this->translator->trans(
                         id: 'email.reset_password.salutation',
-                        parameters: ['username' => $username],
+                        parameters: ['%username%' => $username],
                         locale: $resetPassword->getLocale(),
                     ),
                 ],
