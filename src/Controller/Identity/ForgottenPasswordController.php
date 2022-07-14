@@ -42,6 +42,6 @@ final class ForgottenPasswordController extends AbstractController
             ),
         );
 
-        return $this->redirectToRoute('login');
+        return $this->redirectToRoute('coddin_identity_provider.login');
     }
 }

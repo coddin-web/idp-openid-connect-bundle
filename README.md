@@ -105,6 +105,13 @@ This bundle uses environment variables to configure certain aspects:
 | `TRUSTED_HOSTS` | This variable is used to protect the [`introspect`](https://datatracker.ietf.org/doc/html/rfc7662) endpoint |
 | `COMPANY_NAME`  |                          This variable is used to customize the default templates                           |
 
+There are also a few environment variables that are needed out of the box:
+
+|         Variable          |                           Description                           |
+|:-------------------------:|:---------------------------------------------------------------:|
+|       `MAILER_DSN`        |              This is needed for the password reset              |
+| `MESSENGER_TRANSPORT_DSN` | This is needed for the asynchronous processes this bundle uses  |
+
 ## Final thoughts
 
 This bundle comes with keys (which are needed by OAuth2 to sign the requests) located in the `config/openidconnect/keys` directory of the bundle.
