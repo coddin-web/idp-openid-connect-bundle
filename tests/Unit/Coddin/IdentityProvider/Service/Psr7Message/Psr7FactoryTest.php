@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\IdentityProvider\Service\Psr7Message;
+namespace Tests\Unit\Coddin\IdentityProvider\Service\Psr7Message;
 
 use Coddin\IdentityProvider\Service\Psr7Message\Psr7Factory;
 use PHPUnit\Framework\TestCase;

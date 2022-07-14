@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\IdentityProvider\Repository\OpenIDConnect;
+namespace Tests\Unit\Coddin\IdentityProvider\Repository\LeagueOAuth2Server;
 
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthClient;
 use Coddin\IdentityProvider\Repository\OAuthClientRepository;

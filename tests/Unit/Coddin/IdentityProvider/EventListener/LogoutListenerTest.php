@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\IdentityProvider\EventListener;
+namespace Tests\Unit\Coddin\IdentityProvider\EventListener;
 
 use Coddin\IdentityProvider\Entity\OpenIDConnect\User;
 use Coddin\IdentityProvider\Repository\OAuthAccessTokenRepository;

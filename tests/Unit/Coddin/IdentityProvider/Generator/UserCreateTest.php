@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Coddin\OpenIDConnect\Domain\Generator;
+namespace Tests\Unit\Coddin\IdentityProvider\Generator;
 
 use Coddin\IdentityProvider\Generator\UserCreate;
 use PHPUnit\Framework\TestCase;

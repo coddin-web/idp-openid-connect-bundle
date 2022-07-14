@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\IdentityProvider\MessageHandler;
+namespace Tests\Unit\Coddin\IdentityProvider\MessageHandler;
 
 use Coddin\IdentityProvider\Collection\OAuthClientCollection;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthClient;

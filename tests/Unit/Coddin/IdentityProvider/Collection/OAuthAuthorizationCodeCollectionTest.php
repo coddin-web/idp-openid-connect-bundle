@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Coddin\OpenIDConnect\Domain\Collection;
+namespace Tests\Unit\Coddin\IdentityProvider\Collection;
 
 use Assert\InvalidArgumentException;
 use Coddin\IdentityProvider\Collection\OAuthAuthorizationCodeCollection;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\IdentityProvider\Entity\OpenIDConnect;
+namespace Tests\Unit\Coddin\IdentityProvider\Entity\OpenIDConnect;
 
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthRedirectUri;
 use Coddin\IdentityProvider\Entity\LeagueOAuth2Server\ClientEntity;

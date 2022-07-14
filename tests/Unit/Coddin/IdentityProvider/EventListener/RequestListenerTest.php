@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\IdentityProvider\EventListener;
+namespace Tests\Unit\Coddin\IdentityProvider\EventListener;
 
 use Coddin\IdentityProvider\EventListener\UserLocaleListener;
 use PHPUnit\Framework\MockObject\MockObject;

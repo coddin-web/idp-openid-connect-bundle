@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Integration\Coddin\OpenIDConnect\Infrastructure\Persistence\Doctrine\Dbal;
+namespace Tests\Integration\Coddin\IdentityProvider\Repository\Dbal;
 
 use Coddin\IdentityProvider\DataFixtures\Data\OAuthClient;
 use Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository;

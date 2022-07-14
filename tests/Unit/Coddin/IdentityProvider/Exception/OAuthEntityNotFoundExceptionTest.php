@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Coddin\OpenIDConnect\Infrastructure\Persistence\Doctrine\Exception;
+namespace Tests\Unit\Coddin\IdentityProvider\Exception;
 
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthClient;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
