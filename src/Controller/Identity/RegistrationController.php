@@ -53,7 +53,7 @@ final class RegistrationController extends AbstractController
         $existingUser = $this->userDbalRepository->findOneByUsername($username);
         if ($existingUser !== null) {
             $this->addFlash(
-                type: 'error',
+                type: UserRegistration::FLASH_BAG_ERROR_TYPE,
                 message: $this->translator->trans(
                     id: 'account.register.error.existing_user',
                     parameters: [

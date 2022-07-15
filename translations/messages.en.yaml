@@ -1,3 +1,7 @@
+generic:
+  validation_error: Validation error
+  validation_error.passwords_match: Passwords do not match
+
 account:
   login:
     title: Sign in to your %companyName% account

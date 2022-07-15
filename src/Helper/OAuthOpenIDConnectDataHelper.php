@@ -10,9 +10,6 @@ use OpenIDConnectServer\ClaimExtractor;
 use OpenIDConnectServer\IdTokenResponse;
 use Safe\Exceptions\FilesystemException;
 
-/**
- * @codeCoverageIgnore
- */
 final class OAuthOpenIDConnectDataHelper implements OAuthOpenIDConnectDataHelperInterface
 {
     public function __construct(

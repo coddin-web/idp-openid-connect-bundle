@@ -12,6 +12,8 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 #[RequestValidation]
 final class UserRegistration implements RequestObjectDtoInterface
 {
+    public const FLASH_BAG_ERROR_TYPE = 'user_registration.error';
+
     #[Assert\NotBlank(
         message: '`username` is a required field',
     )]
@@ -73,14 +75,16 @@ final class UserRegistration implements RequestObjectDtoInterface
         $this->passwordRepeat = $passwordRepeat;
     }
 
-    #[Assert\Callback]
+    #[Assert\Callback(
+        payload: 'passwords.match.violation',
+    )]
     public function validatePasswordRepeat(ExecutionContextInterface $executionContext): void
     {
         /** @var UserRegistration $root */
         $root = $executionContext->getRoot();
         if ($root->getPassword() !== $root->getPasswordRepeat()) {
             $executionContext->addViolation(
-                message: 'Passwords do not match',
+                message: 'generic.validation_error.passwords_match',
             );
         }
     }

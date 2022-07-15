@@ -26,6 +26,10 @@ services:
     tags:
       - { name: kernel.event_listener, event: kernel.request, priority: 110 }
 
+  Coddin\IdentityProvider\EventSubscriber\RequestConstraintExceptionSubscriber:
+    tags:
+      - { name: idp.request_invalid_exception, event: kernel.exception }
+
   Coddin\IdentityProvider\EventListener\LogoutListener:
     tags:
       - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LogoutEvent, dispatcher: security.event_dispatcher.main }

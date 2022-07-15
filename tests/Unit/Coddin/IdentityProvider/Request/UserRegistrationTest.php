@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Coddin\IdentityProvider\Request;
 
-use Coddin\IdentityProvider\Request\Exception\RequestInvalidException;
 use Coddin\IdentityProvider\Request\UserRegistration;
+use Coddin\IdentityProvider\Request\Validation\Exception\RequestConstraintException;
 use Coddin\IdentityProvider\Request\Validation\RequestDtoValidator;
 use Coddin\IdentityProvider\Request\Validation\RequestObjectDtoInterface;
 use PHPUnit\Framework\TestCase;
@@ -66,7 +66,7 @@ final class UserRegistrationTest extends TestCase
      */
     public function missing_username(): void
     {
-        self::expectException(RequestInvalidException::class);
+        self::expectException(RequestConstraintException::class);
 
         $data = [
             'username' => 'username',

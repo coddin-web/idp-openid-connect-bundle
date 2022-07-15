@@ -3,7 +3,8 @@
     bootstrap="tests/bootstrap.php"
     colors="true"
     testdox="true"
-    forceCoversAnnotation="true">
+    forceCoversAnnotation="true"
+    beStrictAboutCovers="true">
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">./src</directory>

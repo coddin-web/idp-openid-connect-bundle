@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Coddin\IdentityProvider\Request\Validation;
 
-use Coddin\IdentityProvider\Request\Exception\RequestInvalidException;
+use Coddin\IdentityProvider\Request\Validation\Exception\RequestConstraintException;
 use Coddin\IdentityProvider\Request\Validation\RequestDtoValidator;
 use Coddin\IdentityProvider\Request\Validation\RequestObjectDtoInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -54,8 +54,8 @@ final class RequestDtoValidatorTest extends TestCase
                 ]),
             );
 
-        self::expectException(RequestInvalidException::class);
-        self::expectExceptionMessage('This is an error');
+        self::expectException(RequestConstraintException::class);
+        self::expectExceptionMessage('A constraint violation has occurred');
 
         RequestDtoValidator::validate(
             validator: $this->validator,

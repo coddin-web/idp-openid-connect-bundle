@@ -1,16 +1,19 @@
 <?php
 
+/** @noinspection PhpMissingFieldTypeInspection */
+
 declare(strict_types=1);
 
 namespace Tests\Unit\Coddin\IdentityProvider\Request\Validation;
 
 use Coddin\IdentityProvider\Attribute\RequestValidation;
-use Coddin\IdentityProvider\Request\Exception\RequestInvalidException;
 use Coddin\IdentityProvider\Request\UserRegistration;
+use Coddin\IdentityProvider\Request\Validation\Exception\RequestConstraintException;
+use Coddin\IdentityProvider\Request\Validation\RequestObjectDtoInterface;
 use Coddin\IdentityProvider\Request\Validation\RequestObjectResolver;
+use Coddin\IdentityProvider\Request\Validation\ValidationDataResolver;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
@@ -35,12 +38,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 final class RequestObjectResolverTest extends TestCase
 {
-    /** @var MockObject & Request */
-    private MockObject|Request $request;
+    private Request $request;
     private DenormalizerInterface $serializer;
     private ValidatorInterface $validator;
     /** @var MockObject & ArgumentMetadata */
-    private MockObject|ArgumentMetadata $argumentData;
+    private $argumentData;
+    /** @var ValidationDataResolver & MockObject */
+    private $validationDataResolver;
 
     protected function setUp(): void
     {
@@ -69,8 +73,9 @@ final class RequestObjectResolverTest extends TestCase
                 new JsonEncoder(),
             ],
         );
+        $this->validationDataResolver = $this->createMock(ValidationDataResolver::class);
 
-        $this->request = $this->createMock(Request::class);
+        $this->request = new Request();
         $this->argumentData = $this->createMock(ArgumentMetadata::class);
     }
 
@@ -81,7 +86,7 @@ final class RequestObjectResolverTest extends TestCase
     public function supports_false(): void
     {
         // Completely missing getType check.
-        $requestObjectResolver = new RequestObjectResolver($this->serializer, $this->validator);
+        $requestObjectResolver = $this->createRequestObjectResolver();
         $supports = $requestObjectResolver->supports($this->request, $this->argumentData);
 
         self::assertFalse($supports);
@@ -98,7 +103,7 @@ final class RequestObjectResolverTest extends TestCase
             ->method('getAttributes')
             ->willReturn([$randomRequest]);
 
-        $requestObjectResolver = new RequestObjectResolver($this->serializer, $this->validator);
+        $requestObjectResolver = $this->createRequestObjectResolver();
         $supports = $requestObjectResolver->supports($this->request, $this->argumentData);
 
         self::assertFalse($supports);
@@ -110,7 +115,7 @@ final class RequestObjectResolverTest extends TestCase
      */
     public function supports(): void
     {
-        $requestObjectResolver = new RequestObjectResolver($this->serializer, $this->validator);
+        $requestObjectResolver = $this->createRequestObjectResolver();
 
         $this->argumentData
             ->expects(self::exactly(4))
@@ -130,7 +135,6 @@ final class RequestObjectResolverTest extends TestCase
     /**
      * @test
      * @covers ::resolve
-     * @throws RequestInvalidException
      */
     public function resolve_supports_not_called(): void
     {
@@ -142,9 +146,7 @@ final class RequestObjectResolverTest extends TestCase
         self::expectException(\LogicException::class);
         self::expectExceptionMessage('`supports` should have been called and have handled the argumentType check');
 
-        $requestObjectResolver = new RequestObjectResolver($this->serializer, $this->validator);
-        $generator = $requestObjectResolver->resolve($this->request, $this->argumentData);
-
+        $generator = $this->getGenerator();
         self::assertInstanceOf(\Generator::class, $generator);
         $generator->next();
     }
@@ -160,17 +162,12 @@ final class RequestObjectResolverTest extends TestCase
             ->method('getType')
             ->willReturn(UserRegistration::class);
 
-        $this->request
-            ->expects(self::once())
-            ->method('getMethod')
-            ->willReturn('PUT');
+        $this->request->setMethod('PUT');
 
-        self::expectException(\LogicException::class);
-        self::expectExceptionMessage('Other methods are not supported by this Application');
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('Other methods are not supported by this Request resolver');
 
-        $requestObjectResolver = new RequestObjectResolver($this->serializer, $this->validator);
-        $generator = $requestObjectResolver->resolve($this->request, $this->argumentData);
-
+        $generator = $this->getGenerator();
         self::assertInstanceOf(\Generator::class, $generator);
         $generator->next();
     }
@@ -186,27 +183,17 @@ final class RequestObjectResolverTest extends TestCase
             ->method('getType')
             ->willReturn(UserRegistration::class);
 
-        $this->request
-            ->expects(self::once())
-            ->method('getMethod')
-            ->willReturn('POST');
+        $this->request = new Request(
+            request: [],
+        );
+        $this->request->setMethod('POST');
 
-        $inputBag = $this->createMock(InputBag::class);
-        $inputBag
-            ->expects(self::once())
-            ->method('all')
-            ->willReturn([]);
-        $this->request
-            ->request = $inputBag;
-
-        self::expectException(RequestInvalidException::class);
+        self::expectException(RequestConstraintException::class);
         self::expectExceptionMessage(
-            'Constraint violations found: `username` is a required field; `password` is a required field; `password_repeat` is a required field',
+            'A constraint violation has occurred',
         );
 
-        $requestObjectResolver = new RequestObjectResolver($this->serializer, $this->validator);
-        $generator = $requestObjectResolver->resolve($this->request, $this->argumentData);
-
+        $generator = $this->getGenerator();
         self::assertInstanceOf(\Generator::class, $generator);
         $generator->next();
     }
@@ -222,31 +209,21 @@ final class RequestObjectResolverTest extends TestCase
             ->method('getType')
             ->willReturn(UserRegistration::class);
 
-        $this->request
-            ->expects(self::once())
-            ->method('getMethod')
-            ->willReturn('POST');
-
-        $inputBag = $this->createMock(InputBag::class);
-        $inputBag
-            ->expects(self::once())
-            ->method('all')
-            ->willReturn([
+        $this->request = new Request(
+            request: [
                 'username' => 'username',
                 'password' => 'password',
                 'password_repeat' => 'password_not_repeated',
-            ]);
-        $this->request
-            ->request = $inputBag;
+            ],
+        );
+        $this->request->setMethod('POST');
 
-        self::expectException(RequestInvalidException::class);
+        self::expectException(RequestConstraintException::class);
         self::expectExceptionMessage(
-            'Constraint violations found: Passwords do not match',
+            'A constraint violation has occurred',
         );
 
-        $requestObjectResolver = new RequestObjectResolver($this->serializer, $this->validator);
-        $generator = $requestObjectResolver->resolve($this->request, $this->argumentData);
-
+        $generator = $this->getGenerator();
         self::assertInstanceOf(\Generator::class, $generator);
         $generator->next();
     }
@@ -262,29 +239,46 @@ final class RequestObjectResolverTest extends TestCase
             ->method('getType')
             ->willReturn(UserRegistration::class);
 
-        $this->request
+        $data = [
+            'username' => 'username',
+            'password' => 'password',
+            'password_repeat' => 'password',
+        ];
+        $this->request = new Request(
+            request: $data,
+        );
+        $this->request->setMethod('POST');
+
+        $this->validationDataResolver
             ->expects(self::once())
-            ->method('getMethod')
-            ->willReturn('POST');
+            ->method('resolve')
+            ->willReturn($data);
 
-        $inputBag = $this->createMock(InputBag::class);
-        $inputBag
-            ->expects(self::once())
-            ->method('all')
-            ->willReturn([
-                'username' => 'username',
-                'password' => 'password',
-                'password_repeat' => 'password',
-            ]);
-        $this->request
-            ->request = $inputBag;
-
-        $requestObjectResolver = new RequestObjectResolver($this->serializer, $this->validator);
-        $generator = $requestObjectResolver->resolve($this->request, $this->argumentData);
-
+        $generator = $this->getGenerator();
         self::assertInstanceOf(\Generator::class, $generator);
         $dto = $generator->current();
 
         self::assertInstanceOf(UserRegistration::class, $dto);
+    }
+
+    private function createRequestObjectResolver(): RequestObjectResolver
+    {
+        return new RequestObjectResolver(
+            serializer: $this->serializer,
+            validator: $this->validator,
+            validationDataResolver: $this->validationDataResolver,
+        );
+    }
+
+    /**
+     * @return iterable<RequestObjectDtoInterface>
+     * @noinspection PhpUnhandledExceptionInspection
+     * @noinspection PhpDocMissingThrowsInspection
+     */
+    private function getGenerator(): iterable
+    {
+        $requestObjectResolver = $this->createRequestObjectResolver();
+
+        return $requestObjectResolver->resolve($this->request, $this->argumentData);
     }
 }

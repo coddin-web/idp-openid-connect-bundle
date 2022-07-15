@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Coddin\IdentityProvider\Request\Validation;
 
-use Coddin\IdentityProvider\Request\Exception\RequestInvalidException;
+use Coddin\IdentityProvider\Request\Validation\Exception\RequestConstraintException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class RequestDtoValidator
 {
     /**
-     * @throws RequestInvalidException
+     * @throws RequestConstraintException
      */
     public static function validate(
         ValidatorInterface $validator,
@@ -18,9 +18,10 @@ final class RequestDtoValidator
     ): void {
         $errors = $validator->validate($dto);
         if (count($errors) !== 0) {
-            // @phpstan-ignore-next-line
-            $errors = array_values((array) $errors)[0];
-            throw RequestInvalidException::createFromConstraintViolations(...$errors);
+            throw RequestConstraintException::create(
+                constraintSubject: $dto::class,
+                constraintViolationList: $errors,
+            );
         }
     }
 }

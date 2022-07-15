@@ -1,3 +1,7 @@
+generic:
+  validation_error: Validatie fout
+  validation_error.passwords_match: Wachtwoorden komen niet overeen
+
 account:
   login:
     title: Log in op je %companyName% account

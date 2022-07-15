@@ -7,7 +7,6 @@ namespace Coddin\IdentityProvider\Request\Validation;
 use Coddin\IdentityProvider\Attribute\RequestValidation;
 use Coddin\IdentityProvider\Request\Exception\NotInstanceOfException;
 use Coddin\IdentityProvider\Request\Exception\RequestInvalidException;
-use LogicException;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
@@ -24,6 +23,7 @@ final class RequestObjectResolver implements ArgumentValueResolverInterface
     public function __construct(
         private readonly DenormalizerInterface $serializer,
         private readonly ValidatorInterface $validator,
+        private readonly ValidationDataResolver $validationDataResolver,
     ) {
     }
 
@@ -35,27 +35,23 @@ final class RequestObjectResolver implements ArgumentValueResolverInterface
     /**
      * @return iterable<RequestObjectDtoInterface>
      * @throws RequestInvalidException
+     * @throws \Exception
      */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $type = $argument->getType();
         if (!is_string($type)) {
-            throw new LogicException('`supports` should have been called and have handled the argumentType check');
+            throw new \LogicException('`supports` should have been called and have handled the argumentType check');
         }
 
-        $data = match ($request->getMethod()) {
-            Request::METHOD_POST => $request->request->all(),
-            default => throw new \LogicException('Other methods are not supported by this Application'),
+        $requestMethod = $request->getMethod();
+        $requestData = $request->request->all();
+        $data = match ($requestMethod) {
+            Request::METHOD_POST => $requestData,
+            default => throw new \Exception('Other methods are not supported by this Request resolver'),
         };
 
-        $validationData = \array_intersect_key(
-            $data,
-            \array_flip([
-                'username',
-                'password',
-                'password_repeat',
-            ]),
-        );
+        $validationData = $this->validationDataResolver->resolve($type, $data);
 
         try {
             /** @var RequestObjectDtoInterface $dto */
