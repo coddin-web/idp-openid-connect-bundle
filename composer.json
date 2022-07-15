@@ -2,7 +2,7 @@
     "name": "coddin-web/idp-openid-connect-bundle",
     "description": "A Symfony based IdentityProvider with OpenID Connect implemented",
     "type": "symfony-bundle",
-    "version": "0.10.1",
+    "version": "0.10.2",
     "require": {
         "php": ">=8.1",
         "beberlei/assert": "^3.3",
@@ -21,6 +21,7 @@
         "symfony/serializer-pack": "^1.1",
         "symfony/translation": "^6.1",
         "symfony/twig-bundle": "^6.1",
+        "symfony/ux-twig-component": "^2.3",
         "symfony/validator": "^6.1",
         "thecodingmachine/safe": "^2.2"
     },

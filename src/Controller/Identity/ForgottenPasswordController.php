@@ -42,6 +42,13 @@ final class ForgottenPasswordController extends AbstractController
             ),
         );
 
-        return $this->redirectToRoute('coddin_identity_provider.login');
+        return $this->redirectToRoute('coddin_identity_provider.forgotten_password_splash');
+    }
+
+    public function splash(): Response
+    {
+        return $this->render(
+            '@CoddinIdentityProvider/password/splash.html.twig',
+        );
     }
 }

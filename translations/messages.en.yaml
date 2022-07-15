@@ -25,6 +25,7 @@ account:
     reset: Reset your password
     email: Account e-mail
     email.help: If an account with this e-mail address is known a reset notification will be sent
+    sign_in: Back to log in
 
 email:
   reset_password:

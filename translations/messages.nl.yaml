@@ -22,9 +22,11 @@ account:
     register: Registreer
   password:
     forgotten: Wachtwoord vergeten?
+    forgotten_splash: Wanneer er een account bekend is met het opgegeven e-mail adres zal er een reset wachtwoord link gestuurd worden met verdere uitleg.
     reset: Reset je wachtwoord
     email: Account e-mail
     email.help: Wanneer een account met dit e-mail adres bekend is bij ons zal er een reset notificatie verstuurd worden
+    sign_in: Terug naar log in
 
 email:
   reset_password:

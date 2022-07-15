@@ -27,6 +27,11 @@ coddin_identity_provider.forgotten_password:
   methods: GET
   controller: Coddin\IdentityProvider\Controller\Identity\ForgottenPasswordController::index
 
+coddin_identity_provider.forgotten_password_splash:
+  path: /password/forgotten/splash
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\Identity\ForgottenPasswordController::splash
+
 coddin_identity_provider.forgotten_password.submit:
   path: /password/forgotten
   methods: POST

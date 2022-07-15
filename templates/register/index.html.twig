@@ -3,7 +3,7 @@
 {% block body %}
     <div class="min-h-full flex flex-col justify-center py-8 sm:px-6 lg:px-8">
         <div class="-mt-24">
-            <div class="sm:mx-auto sm:w-full sm:max-w-md">
+            <div class="sm:mx-auto sm:w-full sm:max-w-lg">
                 <img class="mx-auto h-12 w-auto" src="{{ asset('bundles/coddinidentityprovider/build/images/logo.svg') }}" alt="Workflow">
                 <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
                     {{ 'account.register.title'|trans({'%companyName%': companyName}) }}
@@ -26,33 +26,29 @@
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                         <div>
-                            <label for="username" class="block text-sm font-medium text-gray-700">
-                                {{ 'account.register.username'|trans }}
-                            </label>
-                            <div class="mt-1">
-                                <input id="username" name="username" type="text" autocomplete="username" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            </div>
-                            <span class="text-xs italic">
-                                {{ 'account.register.username.help'|trans }}
-                            </span>
+                            {{ component('idp_openid_connect.input', {
+                                name: 'username',
+                                type: 'email',
+                                autofocus: true,
+                                message: 'account.register.username',
+                                helpText: 'account.register.username.help'
+                            }) }}
                         </div>
 
                         <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700">
-                                {{ 'account.register.password'|trans }}
-                            </label>
-                            <div class="mt-1">
-                                <input id="password" name="password" type="password" autocomplete="off" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            </div>
+                            {{ component('idp_openid_connect.input', {
+                                name: 'password',
+                                type: 'password',
+                                message: 'account.register.password',
+                            }) }}
                         </div>
 
                         <div>
-                            <label for="password_repeat" class="block text-sm font-medium text-gray-700">
-                                {{ 'account.register.password_repeat'|trans }}
-                            </label>
-                            <div class="mt-1">
-                                <input id="password_repeat" name="password_repeat" type="password" autocomplete="off" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            </div>
+                            {{ component('idp_openid_connect.input', {
+                                name: 'password_repeat',
+                                type: 'password',
+                                message: 'account.register.password_repeat',
+                            }) }}
                         </div>
 
                         {% if errors['general'] is defined %}
