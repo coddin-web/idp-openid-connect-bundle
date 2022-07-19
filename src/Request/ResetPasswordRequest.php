@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace Coddin\IdentityProvider\Request;
 
-use Coddin\IdentityProvider\Request\Validation\RequestObjectDtoInterface;
 use Coddin\IdentityProvider\Attribute\RequestValidation;
+use Coddin\IdentityProvider\Request\Validation\RequestObjectDtoInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[RequestValidation]
-final class UserRegistration implements RequestObjectDtoInterface
+final class ResetPasswordRequest implements RequestObjectDtoInterface
 {
     use PasswordRepeatTrait;
 
-    public const FLASH_BAG_ERROR_TYPE = 'user_registration.error';
-
     #[Assert\NotBlank(
-        message: '`username` is a required field',
+        message: '`reset_csrf_token` is a required field',
     )]
-    private string $username = '';
+    private string $resetCsrfToken;
+    #[Assert\NotBlank(
+        message: '`reset_token` is a required field',
+    )]
+    private string $resetToken;
     #[Assert\NotBlank(
         message: '`password` is a required field',
     )]
@@ -31,17 +33,33 @@ final class UserRegistration implements RequestObjectDtoInterface
     /**
      * @codeCoverageIgnore
      */
-    public function getUsername(): string
+    public function getCsrfToken(): string
     {
-        return $this->username;
+        return $this->resetCsrfToken;
     }
 
     /**
      * @codeCoverageIgnore
      */
-    public function setUsername(string $username): void
+    public function setResetCsrfToken(string $resetCsrfToken): void
     {
-        $this->username = $username;
+        $this->resetCsrfToken = $resetCsrfToken;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getResetToken(): string
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setResetToken(string $resetToken): void
+    {
+        $this->resetToken = $resetToken;
     }
 
     /**

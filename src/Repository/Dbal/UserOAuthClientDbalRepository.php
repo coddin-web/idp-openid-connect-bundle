@@ -40,7 +40,7 @@ final class UserOAuthClientDbalRepository extends ServiceEntityRepository implem
             ->setParameter('externalId', $externalId);
 
         try {
-            /** @var \Coddin\IdentityProvider\Entity\OpenIDConnect\UserOAuthClient $userOauthClient */
+            /** @var UserOAuthClient $userOauthClient */
             $userOauthClient = $queryBuilder->getQuery()->getSingleResult();
         } catch (NoResultException | NonUniqueResultException) {
             throw OAuthEntityNotFoundException::fromClassNameAndExternalId(

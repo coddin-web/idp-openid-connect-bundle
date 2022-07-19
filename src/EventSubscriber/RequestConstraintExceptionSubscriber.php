@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Coddin\IdentityProvider\EventSubscriber;
 
+use Coddin\IdentityProvider\Request\Handler\ResetPasswordRequestHandler;
 use Coddin\IdentityProvider\Request\Handler\UserRegistrationHandler;
+use Coddin\IdentityProvider\Request\ResetPasswordRequest;
 use Coddin\IdentityProvider\Request\UserRegistration;
 use Coddin\IdentityProvider\Request\Validation\Exception\RequestConstraintException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -15,6 +17,7 @@ final class RequestConstraintExceptionSubscriber implements EventSubscriberInter
 {
     public function __construct(
         private readonly UserRegistrationHandler $userRegistrationHandler,
+        private readonly ResetPasswordRequestHandler $resetPasswordRequestHandler,
     ) {
     }
 
@@ -41,6 +44,9 @@ final class RequestConstraintExceptionSubscriber implements EventSubscriberInter
         switch ($requestConstraintException->getConstraintSubject()) {
             case UserRegistration::class:
                 $this->userRegistrationHandler->resolve($event, $requestConstraintException);
+                break;
+            case ResetPasswordRequest::class:
+                $this->resetPasswordRequestHandler->resolve($event, $requestConstraintException);
                 break;
             default:
                 throw new \LogicException('Unsupported RequestConstraintException type encountered');

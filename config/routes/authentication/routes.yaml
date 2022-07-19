@@ -36,3 +36,13 @@ coddin_identity_provider.forgotten_password.submit:
   path: /password/forgotten
   methods: POST
   controller: Coddin\IdentityProvider\Controller\Identity\ForgottenPasswordController::resetPassword
+
+coddin_identity_provider.password.reset:
+  path: /password/reset/{token}
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\Identity\ResetPasswordController::index
+
+coddin_identity_provider.password.reset.submit:
+  path: /password/reset/{token}
+  methods: POST
+  controller: Coddin\IdentityProvider\Controller\Identity\ResetPasswordController::process

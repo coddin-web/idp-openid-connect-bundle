@@ -7,7 +7,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Coddin\IdentityProvider\EventSubscriber;
 
 use Coddin\IdentityProvider\EventSubscriber\RequestConstraintExceptionSubscriber;
+use Coddin\IdentityProvider\Request\Handler\ResetPasswordRequestHandler;
 use Coddin\IdentityProvider\Request\Handler\UserRegistrationHandler;
+use Coddin\IdentityProvider\Request\ResetPasswordRequest;
 use Coddin\IdentityProvider\Request\UserRegistration;
 use Coddin\IdentityProvider\Request\Validation\Exception\RequestConstraintException;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -20,15 +22,18 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
  */
 final class RequestConstraintExceptionSubscriberTest extends TestCase
 {
-    /** @var MockObject & ExceptionEvent $exceptionEvent */
+    /** @var ExceptionEvent & MockObject $exceptionEvent */
     private $exceptionEvent;
     /** @var UserRegistrationHandler & MockObject $userRegistrationHandler */
     private $userRegistrationHandler;
+    /** @var ResetPasswordRequestHandler & MockObject */
+    private $resetPasswordRequestHandler;
 
     protected function setUp(): void
     {
         $this->exceptionEvent = $this->createMock(ExceptionEvent::class);
         $this->userRegistrationHandler = $this->createMock(UserRegistrationHandler::class);
+        $this->resetPasswordRequestHandler = $this->createMock(ResetPasswordRequestHandler::class);
     }
 
     /**
@@ -46,7 +51,7 @@ final class RequestConstraintExceptionSubscriberTest extends TestCase
             ->expects(self::never())
             ->method('resolve');
 
-        $subscriber = new RequestConstraintExceptionSubscriber($this->userRegistrationHandler);
+        $subscriber = $this->createSubscriber();
         $subscriber->process($this->exceptionEvent);
     }
 
@@ -73,7 +78,7 @@ final class RequestConstraintExceptionSubscriberTest extends TestCase
 
         self::expectException(\LogicException::class);
 
-        $subscriber = new RequestConstraintExceptionSubscriber($this->userRegistrationHandler);
+        $subscriber = $this->createSubscriber();
         $subscriber->process($this->exceptionEvent);
     }
 
@@ -83,7 +88,7 @@ final class RequestConstraintExceptionSubscriberTest extends TestCase
      * @covers ::process
      * @dataProvider processConstraintEvents
      */
-    public function process(string $constraintEvent): void
+    public function process(string $constraintEvent, string $handler): void
     {
         $requestConstraintException = $this->createMock(RequestConstraintException::class);
         $requestConstraintException
@@ -96,22 +101,32 @@ final class RequestConstraintExceptionSubscriberTest extends TestCase
             ->method('getThrowable')
             ->willReturn($requestConstraintException);
 
-        $this->userRegistrationHandler
+        /* @phpstan-ignore-next-line */
+        $this->{$handler}
             ->expects(self::once())
             ->method('resolve')
             ->with($this->exceptionEvent, $requestConstraintException);
 
-        $subscriber = new RequestConstraintExceptionSubscriber($this->userRegistrationHandler);
+        $subscriber = $this->createSubscriber();
         $subscriber->process($this->exceptionEvent);
     }
 
     /**
-     * @return array<array<class-string>>
+     * @return array<int, array<int, class-string|string>>
      */
     public function processConstraintEvents(): array
     {
         return [
-            [ UserRegistration::class ],
+            [ UserRegistration::class, 'userRegistrationHandler' ],
+            [ ResetPasswordRequest::class, 'resetPasswordRequestHandler' ],
         ];
+    }
+
+    private function createSubscriber(): RequestConstraintExceptionSubscriber
+    {
+        return new RequestConstraintExceptionSubscriber(
+            userRegistrationHandler: $this->userRegistrationHandler,
+            resetPasswordRequestHandler: $this->resetPasswordRequestHandler,
+        );
     }
 }

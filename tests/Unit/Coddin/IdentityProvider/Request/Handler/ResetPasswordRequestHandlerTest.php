@@ -6,21 +6,22 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Coddin\IdentityProvider\Request\Handler;
 
-use Coddin\IdentityProvider\Request\Handler\UserRegistrationHandler;
+use Coddin\IdentityProvider\Request\Handler\ResetPasswordRequestHandler;
 use Coddin\IdentityProvider\Request\Validation\Exception\RequestConstraintException;
 use Coddin\IdentityProvider\Service\Session\ConstraintFlashBagHandler;
 use Coddin\IdentityProvider\Service\Symfony\RedirectResponseFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- * @coversDefaultClass \Coddin\IdentityProvider\Request\Handler\UserRegistrationHandler
+ * @coversDefaultClass \Coddin\IdentityProvider\Request\Handler\ResetPasswordRequestHandler
  * @covers ::__construct
  */
-final class UserRegistrationHandlerTest extends TestCase
+final class ResetPasswordRequestHandlerTest extends TestCase
 {
     /** @var ConstraintFlashBagHandler & MockObject */
     private $constraintFlashBagHandler;
@@ -49,11 +50,18 @@ final class UserRegistrationHandlerTest extends TestCase
             ->method('addMessagesFromException')
             ->with($requestConstraintException);
 
-        $this->router
+        $request = $this->createMock(Request::class);
+        $request
             ->expects(self::once())
-            ->method('generate')
-            ->with('coddin_identity_provider.register')
-            ->willReturn('https://foo.bar');
+            ->method('get')
+            ->with('token')
+            ->willReturn('this_is_a_token');
+
+        $exceptionEvent = $this->createMock(ExceptionEvent::class);
+        $exceptionEvent
+            ->expects(self::once())
+            ->method('getRequest')
+            ->willReturn($request);
 
         $redirectResponse = $this->createMock(RedirectResponse::class);
 
@@ -63,13 +71,18 @@ final class UserRegistrationHandlerTest extends TestCase
             ->with('https://foo.bar')
             ->willReturn($redirectResponse);
 
-        $exceptionEvent = $this->createMock(ExceptionEvent::class);
+        $this->router
+            ->expects(self::once())
+            ->method('generate')
+            ->with('coddin_identity_provider.password.reset', ['token' => 'this_is_a_token'])
+            ->willReturn('https://foo.bar');
+
         $exceptionEvent
             ->expects(self::once())
             ->method('setResponse')
             ->with($redirectResponse);
 
-        $handler = new UserRegistrationHandler(
+        $handler = new ResetPasswordRequestHandler(
             constraintFlashBagHandler: $this->constraintFlashBagHandler,
             redirectResponseFactory: $this->redirectResponseFactory,
             router: $this->router,

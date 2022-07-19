@@ -155,4 +155,29 @@ final class UserDbalRepositoryTest extends KernelTestCase
         self::assertInstanceOf(OAuthClient::class, $userAssignedOauthClient->getOAuthClient());
         self::assertEquals('userdbaltest', $oauthClient->getExternalIdReadable());
     }
+
+    /**
+     * @test
+     * @covers ::updatePassword
+     */
+    public function update_password(): void
+    {
+        /** @var User $user */
+        $user = $this->repository->findOneByUsername(DataUser::UserName->value);
+        $updatedAt = $user->getUpdatedAt();
+
+        self::assertTrue(\password_verify(DataUser::Password->value, $user->getPassword()));
+
+        $this->repository->updatePassword(
+            user: $user,
+            password: 'new_password',
+        );
+        $this->entityManager->refresh($user);
+
+        /** @var User $user */
+        $user = $this->repository->findOneByUsername(DataUser::UserName->value);
+
+        self::assertTrue(\password_verify('new_password', $user->getPassword()));
+        self::assertTrue($user->getUpdatedAt() > $updatedAt);
+    }
 }

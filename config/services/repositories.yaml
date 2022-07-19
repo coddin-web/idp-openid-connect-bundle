@@ -38,4 +38,4 @@ services:
     class: 'Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository'
     tags: [ 'doctrine.repository_service' ]
     arguments:
-      [ '@doctrine', '@doctrine.orm.entity_manager' ]
+      [ '@doctrine', '@doctrine.orm.entity_manager', '@security.user_password_hasher' ]

@@ -24,6 +24,7 @@ security:
       form_login:
         login_path: coddin_identity_provider.login
         check_path: coddin_identity_provider.login
+        enable_csrf: true
 
       logout:
         path: coddin_identity_provider.logout

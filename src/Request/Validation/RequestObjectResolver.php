@@ -60,7 +60,7 @@ final class RequestObjectResolver implements ArgumentValueResolverInterface
 
             yield $dto;
         // @codeCoverageIgnoreStart
-        } catch (\TypeError | ExceptionInterface | NotNormalizableValueException) {
+        } catch (\TypeError | ExceptionInterface | NotNormalizableValueException $e) {
             throw RequestInvalidException::createForDenormalization('The structure of the request is malformed');
         }
         // @codeCoverageIgnoreEnd

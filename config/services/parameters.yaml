@@ -1,4 +1,9 @@
 parameters:
+  router.request_context.host: '%env(IDP_HOST_URL)%'
+  router.request_context.scheme: '%env(default:default_scheme:IDP_SCHEME)%'
+
+  default_scheme: https
+
   idp.company_name: '%env(COMPANY_NAME)%'
   oidc.client.token: '%env(WEBHOOK_URL_TOKEN)%'
   env(TRUSTED_IPS): '%env(TRUSTED_HOSTS)%'

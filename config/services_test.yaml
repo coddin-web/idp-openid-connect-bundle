@@ -12,6 +12,8 @@ services:
     public: true
   Coddin\IdentityProvider\Repository\Dbal\OAuthRefreshTokenDbalRepository:
     public: true
+  Coddin\IdentityProvider\Repository\Dbal\PasswordResetRequestDbalRepository:
+    public: true
   Coddin\IdentityProvider\Repository\Dbal\UserDbalRepository:
     public: true
   Coddin\IdentityProvider\Repository\Dbal\UserOAuthClientDbalRepository:

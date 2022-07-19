@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Coddin\IdentityProvider\Request\Validation;
 
+use Coddin\IdentityProvider\Request\ResetPasswordRequest;
 use Coddin\IdentityProvider\Request\UserRegistration;
 use Coddin\IdentityProvider\Request\Validation\ValidationDataResolver;
 use PHPUnit\Framework\TestCase;
@@ -89,7 +90,7 @@ final class ValidationDataResolverTest extends TestCase
                 ],
             ],
             [
-            UserRegistration::class,
+                UserRegistration::class,
                 [
                     'username' => 'user@name',
                     'password' => '$ecr3t',
@@ -97,6 +98,21 @@ final class ValidationDataResolverTest extends TestCase
                 [
                     'username' => 'user@name',
                     'password' => '$ecr3t',
+                ],
+            ],
+            [
+                ResetPasswordRequest::class,
+                [
+                    'reset_csrf_token' => 'reset_csrf_token',
+                    'reset_token' => 'reset_token',
+                    'password' => '$ecr3t',
+                    'password_repeat' => '$ecr3t',
+                ],
+                [
+                    'reset_csrf_token' => 'reset_csrf_token',
+                    'reset_token' => 'reset_token',
+                    'password' => '$ecr3t',
+                    'password_repeat' => '$ecr3t',
                 ],
             ],
         ];

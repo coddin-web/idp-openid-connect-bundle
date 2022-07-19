@@ -13,6 +13,7 @@ use Coddin\IdentityProvider\Entity\OpenIDConnect\User;
 use Coddin\IdentityProvider\Repository\UserRepository;
 use Coddin\IdentityProvider\Message\ResetPassword;
 use Coddin\IdentityProvider\MessageHandler\ResetPasswordHandler;
+use Coddin\IdentityProvider\Service\Auth\ResetPassword as ResetPasswordService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mailer\MailerInterface;
@@ -29,12 +30,15 @@ final class ResetPasswordHandlerTest extends TestCase
     private $translator;
     /** @var UserRepository & MockObject */
     private $userRepository;
+    /** @var ResetPasswordService & MockObject */
+    private $resetPassword;
 
     protected function setUp(): void
     {
         $this->mailer = $this->createMock(MailerInterface::class);
         $this->translator = $this->createMock(TranslatorInterface::class);
         $this->userRepository = $this->createMock(UserRepository::class);
+        $this->resetPassword = $this->createMock(ResetPasswordService::class);
     }
 
     /**
@@ -104,6 +108,7 @@ final class ResetPasswordHandlerTest extends TestCase
             mailer: $this->mailer,
             translator: $this->translator,
             userRepository: $this->userRepository,
+            resetPassword: $this->resetPassword,
         );
     }
 }

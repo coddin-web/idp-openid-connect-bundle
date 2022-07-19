@@ -14,6 +14,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Safe\Exceptions\JsonException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -26,6 +27,7 @@ final class UserDbalRepository extends ServiceEntityRepository implements UserRe
     public function __construct(
         ManagerRegistry $registry,
         private readonly EntityManagerInterface $entityManager,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
     ) {
         parent::__construct($registry, User::class);
     }
@@ -110,5 +112,27 @@ final class UserDbalRepository extends ServiceEntityRepository implements UserRe
         }
 
         $this->entityManager->flush();
+    }
+
+    public function updatePassword(
+        User $user,
+        string $password,
+    ): void {
+        $hashedPassword = $this->userPasswordHasher->hashPassword(
+            $user,
+            $password,
+        );
+
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $queryBuilder
+            ->update(User::class, 'user')
+            ->set('user.password', ':password')
+            ->set('user.updatedAt', ':updatedAt')
+            ->where('user.id = :userId')
+            ->setParameter('password', $hashedPassword)
+            ->setParameter('userId', $user->getId())
+            ->setParameter('updatedAt', new \DateTimeImmutable());
+
+        $queryBuilder->getQuery()->execute();
     }
 }

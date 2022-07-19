@@ -102,11 +102,13 @@ The Symfony cache needs to be cleared before this module will be fully operation
 ### Environment variables
 This bundle uses environment variables to configure certain aspects:
 
-|    Variable     |                                                 Description                                                 |
-|:---------------:|:-----------------------------------------------------------------------------------------------------------:|
-| `TRUSTED_HOSTS` | This variable is used to protect the [`introspect`](https://datatracker.ietf.org/doc/html/rfc7662) endpoint |
-| `COMPANY_NAME`  |                          This variable is used to customize the default templates                           |
-| `IDP_MAIL_FROM` |                        This variable is used as the global "from" header for emails                         |
+|    Variable     |                                                          Description                                                           |
+|:---------------:|:------------------------------------------------------------------------------------------------------------------------------:|
+| `IDP_HOST_URL`  |                 This variable is used by the router to determine the default host (e.g. for e-mail templates)                  |
+|  `IDP_SCHEME`   |    This variable is used by the router to determine the default scheme (which should be `https`, which is also the default)    |
+| `TRUSTED_HOSTS` |          This variable is used to protect the [`introspect`](https://datatracker.ietf.org/doc/html/rfc7662) endpoint           |
+| `COMPANY_NAME`  |                                    This variable is used to customize the default templates                                    |
+| `IDP_MAIL_FROM` |                                  This variable is used as the global "from" header for emails                                  |
 
 There are also a few environment variables that are needed out of the box:
 

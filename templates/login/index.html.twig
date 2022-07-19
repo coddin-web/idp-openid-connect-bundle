@@ -19,6 +19,7 @@
                     {% endif %}
                     <form class="space-y-6" action="{{ url('coddin_identity_provider.login') }}" method="post">
                         <input type="hidden" name="_target_path" value="/login/oidc">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                         <div>
                             {{ component('idp_openid_connect.input', {

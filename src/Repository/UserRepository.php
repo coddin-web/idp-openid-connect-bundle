@@ -28,4 +28,6 @@ interface UserRepository
     public function findOneByUsername(string $username): ?User;
 
     public function assignToOAuthClients(User $user, OAuthClient ...$oauthClients): void;
+
+    public function updatePassword(User $user, string $password): void;
 }

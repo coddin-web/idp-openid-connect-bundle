@@ -10,7 +10,7 @@ use Coddin\IdentityProvider\Service\Symfony\RedirectResponseFactory;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\Routing\RouterInterface;
 
-final class UserRegistrationHandler implements RequestConstraintExceptionHandler
+final class ResetPasswordRequestHandler implements RequestConstraintExceptionHandler
 {
     public function __construct(
         private readonly ConstraintFlashBagHandler $constraintFlashBagHandler,
@@ -27,7 +27,12 @@ final class UserRegistrationHandler implements RequestConstraintExceptionHandler
 
         $event->setResponse(
             $this->redirectResponseFactory->create(
-                url: $this->router->generate('coddin_identity_provider.register'),
+                url: $this->router->generate(
+                    name: 'coddin_identity_provider.password.reset',
+                    parameters: [
+                        'token' => $event->getRequest()->get('token'),
+                    ],
+                ),
             ),
         );
     }

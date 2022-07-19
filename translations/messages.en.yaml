@@ -7,6 +7,7 @@ account:
     title: Sign in to your %companyName% account
     username: Username
     password: Password
+    password_repeat: Repeat password
     no_account: No account yet?
     register: Register here!
     sign_in: Sign in
@@ -31,3 +32,4 @@ email:
   reset_password:
     subject: Reset your password
     salutation: Hello %username%
+

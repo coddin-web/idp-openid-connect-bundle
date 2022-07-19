@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Coddin\IdentityProvider\Request\Validation;
 
+use Coddin\IdentityProvider\Request\ResetPasswordRequest;
 use Coddin\IdentityProvider\Request\UserRegistration;
 
 final class ValidationDataResolver
@@ -18,6 +19,7 @@ final class ValidationDataResolver
     ): array {
         return match ($type) {
             UserRegistration::class => $this->intersectKeys($data, ['username', 'password', 'password_repeat']),
+            ResetPasswordRequest::class => $this->intersectKeys($data, ['reset_csrf_token', 'reset_token', 'password', 'password_repeat']),
             default => throw new \LogicException('Unsupported request encountered'),
         };
     }

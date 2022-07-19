@@ -8,6 +8,7 @@ use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthAccessToken;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthAuthorizationCode;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthClient;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthRefreshToken;
+use Coddin\IdentityProvider\Entity\OpenIDConnect\PasswordResetRequest;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\User;
 use Coddin\IdentityProvider\Generator\OAuthClientCreate;
 use Coddin\IdentityProvider\Generator\UserCreate;
@@ -60,6 +61,22 @@ final class FullOpenIDConnectSetup extends Fixture
         $manager->persist($refreshToken);
 
         $this->authorizationCodeSetup($user, $oauthClient);
+
+        $validPasswordResetRequest = new PasswordResetRequest(
+            $user,
+            Data\PasswordResetRequest::Token->value,
+            new \DateTimeImmutable(),
+            \DateTimeImmutable::createFromMutable((new \DateTime())->add(new \DateInterval('PT1H'))),
+        );
+        $manager->persist($validPasswordResetRequest);
+
+        $invalidPasswordResetRequest = new PasswordResetRequest(
+            $user,
+            Data\PasswordResetRequest::InvalidToken->value,
+            \DateTimeImmutable::createFromMutable((new \DateTime())->sub(new \DateInterval('PT23H'))),
+            \DateTimeImmutable::createFromMutable((new \DateTime())->sub(new \DateInterval('PT22H'))),
+        );
+        $manager->persist($invalidPasswordResetRequest);
 
         $manager->flush();
     }

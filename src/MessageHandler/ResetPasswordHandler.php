@@ -6,6 +6,7 @@ namespace Coddin\IdentityProvider\MessageHandler;
 
 use Coddin\IdentityProvider\Repository\UserRepository;
 use Coddin\IdentityProvider\Message\ResetPassword;
+use Coddin\IdentityProvider\Service\Auth\ResetPassword as ResetPasswordHelper;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -23,11 +24,13 @@ final class ResetPasswordHandler
         private readonly MailerInterface $mailer,
         private readonly TranslatorInterface $translator,
         private readonly UserRepository $userRepository,
+        private readonly ResetPasswordHelper $resetPassword,
     ) {
     }
 
     /**
      * @throws TransportExceptionInterface
+     * @throws \Exception
      */
     public function __invoke(ResetPassword $resetPassword): void
     {
@@ -39,6 +42,8 @@ final class ResetPasswordHandler
         if ($user === null) {
             return;
         }
+
+        $token = $this->resetPassword->createToken($user);
 
         $email = (new TemplatedEmail())
             ->to(new Address($username, $user->getUsername()))
@@ -52,6 +57,7 @@ final class ResetPasswordHandler
                         locale: $resetPassword->getLocale(),
                     ),
                 ],
+                'resetToken' => $token,
             ]);
 
         $this->mailer->send($email);
