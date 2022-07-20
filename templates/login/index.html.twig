@@ -23,7 +23,7 @@
 
                         <div>
                             {{ component('idp_openid_connect.input', {
-                                name: 'username',
+                                name: '_username',
                                 type: 'email',
                                 autofocus: true,
                                 message: 'account.login.username',
@@ -32,7 +32,7 @@
 
                         <div>
                             {{ component('idp_openid_connect.input', {
-                                name: 'password',
+                                name: '_password',
                                 type: 'password',
                                 message: 'account.login.password'
                             }) }}

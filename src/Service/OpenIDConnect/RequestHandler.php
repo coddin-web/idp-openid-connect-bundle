@@ -57,7 +57,7 @@ final class RequestHandler
         $this->initAuthorizationCodeFlowByRequest($request);
 
         if (!$security->getUser() instanceof UserInterface) {
-            return new RedirectResponse($this->urlGenerator->generate('login'));
+            return new RedirectResponse($this->urlGenerator->generate('coddin_identity_provider.login'));
         }
 
         try {
