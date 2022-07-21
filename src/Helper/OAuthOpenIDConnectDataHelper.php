@@ -5,23 +5,27 @@ declare(strict_types=1);
 namespace Coddin\IdentityProvider\Helper;
 
 use Coddin\IdentityProvider\Repository\LeagueOAuth2Server\IdentityRepository;
+use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemException;
 use League\OAuth2\Server\CryptKey;
 use OpenIDConnectServer\ClaimExtractor;
 use OpenIDConnectServer\IdTokenResponse;
-use Safe\Exceptions\FilesystemException;
 
 final class OAuthOpenIDConnectDataHelper implements OAuthOpenIDConnectDataHelperInterface
 {
     public function __construct(
-        private readonly string $projectDir,
+        private readonly string $encryptionKey,
+        private readonly string $publicKeyPath,
+        private readonly string $privateKeyPath,
+        private readonly string $jwkJsonPath,
+        private readonly Filesystem $filesystem,
         private readonly IdentityRepository $identityRepository,
     ) {
     }
 
     public function encryptionKey(): string
     {
-        // TODO: This should be a dev key, production should override with ENV var.
-        return 'lxZFUEsBCJ2Yb14IF2ygAHI5N4+ZAUXXaSeeJm6+twsUmIen';
+        return $this->encryptionKey;
     }
 
     public function privateKeyCryptKey(): CryptKey
@@ -31,14 +35,12 @@ final class OAuthOpenIDConnectDataHelper implements OAuthOpenIDConnectDataHelper
 
     public function privateKeyPath(): string
     {
-        // TODO: This should be a dev key, production should override with ENV var.
-        return $this->projectDir . '/config/openidconnect/keys/private.key';
+        return $this->privateKeyPath;
     }
 
     public function publicKeyPath(): string
     {
-        // TODO: This should be a dev key, production should override with ENV var.
-        return $this->projectDir . '/config/openidconnect/keys/public.key';
+        return $this->publicKeyPath;
     }
 
     /**
@@ -46,8 +48,7 @@ final class OAuthOpenIDConnectDataHelper implements OAuthOpenIDConnectDataHelper
      */
     public function getJsonWebKeysFromConfig(): string
     {
-        // TODO: This should be dev data, production should override with ENV var.
-        return \Safe\file_get_contents($this->projectDir . '/config/openidconnect/jwks.json');
+        return $this->filesystem->read($this->jwkJsonPath);
     }
 
     public function getResponseType(): IdTokenResponse

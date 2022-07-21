@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  League\Flysystem\Local\LocalFilesystemAdapter:
+    arguments:
+      $location: '%kernel.project_dir%'
+
+  League\Flysystem\Filesystem:
+    arguments:
+      $adapter: '@League\Flysystem\Local\LocalFilesystemAdapter'

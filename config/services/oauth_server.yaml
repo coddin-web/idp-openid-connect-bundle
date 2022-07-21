@@ -1,0 +1,24 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  Coddin\IdentityProvider\Entity\LeagueOAuth2Server\:
+    resource: '../../src/Entity/LeagueOAuth2Server/'
+
+  Coddin\IdentityProvider\Helper\OAuthOpenIDConnectDataHelperInterface:
+    class: Coddin\IdentityProvider\Helper\OAuthOpenIDConnectDataHelper
+    arguments:
+      $encryptionKey: '%env(IDP_ENCRYPTION_KEY)%'
+      $publicKeyPath: '%env(IDP_PUBLIC_KEY_ABSOLUTE_PATH)%'
+      $privateKeyPath: '%env(IDP_PRIVATE_KEY_ABSOLUTE_PATH)%'
+      $jwkJsonPath: '%env(IDP_JWKS_RELATIVE_PATH)%'
+
+  League\OAuth2\Server\AuthorizationServer:
+    arguments:
+      $clientRepository: '@Coddin\IdentityProvider\Repository\LeagueOAuth2Server\ClientRepository'
+      $accessTokenRepository: '@Coddin\IdentityProvider\Repository\LeagueOAuth2Server\AccessTokenRepository'
+      $scopeRepository: '@Coddin\IdentityProvider\Repository\LeagueOAuth2Server\ScopeRepository'
+      $privateKey: '@=service("Coddin\\IdentityProvider\\Helper\\OAuthOpenIDConnectDataHelperInterface").privateKeyCryptKey()'
+      $encryptionKey: '@=service("Coddin\\IdentityProvider\\Helper\\OAuthOpenIDConnectDataHelperInterface").encryptionKey()'
+      $responseType: '@=service("Coddin\\IdentityProvider\\Helper\\OAuthOpenIDConnectDataHelperInterface").getResponseType()'

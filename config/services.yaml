@@ -1,4 +1,6 @@
 imports:
+  - { resource: 'services/flysystem.yaml' }
+  - { resource: 'services/oauth_server.yaml' }
   - { resource: 'services/parameters.yaml' }
   - { resource: 'services/repositories.yaml' }
   - { resource: 'services/serializer.yaml' }
@@ -13,13 +15,14 @@ services:
     exclude:
       - '../src/Entity/'
 
-  Coddin\IdentityProvider\Entity\LeagueOAuth2Server\:
-    resource: '../src/Entity/LeagueOAuth2Server/'
-
-  # Set Controllers
+  # Set services by tag
   Coddin\IdentityProvider\Controller\:
     resource: '../src/Controller/'
     tags: [ 'controller.service_arguments' ]
+
+  Coddin\IdentityProvider\DataFixtures\:
+    resource: '../src/DataFixtures'
+    tags: [ 'doctrine.fixtures.orm' ]
 
   # Events
   Coddin\IdentityProvider\EventListener\UserLocaleListener:
@@ -37,26 +40,6 @@ services:
   # Service wiring
   Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory: ~
 
-  Coddin\IdentityProvider\Helper\OAuthOpenIDConnectDataHelperInterface:
-    class: Coddin\IdentityProvider\Helper\OAuthOpenIDConnectDataHelper
-    arguments:
-      $projectDir: '%kernel.project_dir%'
-
   Coddin\IdentityProvider\Request\Validation\RequestObjectResolver:
     tags:
       - { name: controller.argument_value_resolver, priority: 50 }
-
-  # Setup OAuth2 Server
-  League\OAuth2\Server\AuthorizationServer:
-    arguments:
-      $clientRepository: '@Coddin\IdentityProvider\Repository\LeagueOAuth2Server\ClientRepository'
-      $accessTokenRepository: '@Coddin\IdentityProvider\Repository\LeagueOAuth2Server\AccessTokenRepository'
-      $scopeRepository: '@Coddin\IdentityProvider\Repository\LeagueOAuth2Server\ScopeRepository'
-      $privateKey: '@=service("Coddin\\IdentityProvider\\Helper\\OAuthOpenIDConnectDataHelperInterface").privateKeyCryptKey()'
-      $encryptionKey: '@=service("Coddin\\IdentityProvider\\Helper\\OAuthOpenIDConnectDataHelperInterface").encryptionKey()'
-      $responseType: '@=service("Coddin\\IdentityProvider\\Helper\\OAuthOpenIDConnectDataHelperInterface").getResponseType()'
-
-  # Doctrine data fixtures
-  Coddin\IdentityProvider\DataFixtures\:
-    resource: '../src/DataFixtures'
-    tags: [ 'doctrine.fixtures.orm' ]
