@@ -143,7 +143,7 @@ Debugging / unexpected errors
 ----------------------------
 On a Macbook unexpected errors could occur when using LibreSSL insteadof OpenSSL.
 
-MacOS comes with LibreSSL installed, but it can be replaced by installing it with Homebrew.
+MacOS comes with LibreSSL pre-installed, but it can be replaced by installing openssl with Homebrew.
 
 Supported languages
 -------------------
