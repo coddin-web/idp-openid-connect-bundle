@@ -14,6 +14,7 @@ use OpenIDConnectServer\IdTokenResponse;
 final class OAuthOpenIDConnectDataHelper implements OAuthOpenIDConnectDataHelperInterface
 {
     public function __construct(
+        private readonly string $projectDir,
         private readonly string $encryptionKey,
         private readonly string $publicKeyPath,
         private readonly string $privateKeyPath,
@@ -35,12 +36,12 @@ final class OAuthOpenIDConnectDataHelper implements OAuthOpenIDConnectDataHelper
 
     public function privateKeyPath(): string
     {
-        return $this->privateKeyPath;
+        return $this->projectDir . DIRECTORY_SEPARATOR . $this->privateKeyPath;
     }
 
     public function publicKeyPath(): string
     {
-        return $this->publicKeyPath;
+        return $this->projectDir . DIRECTORY_SEPARATOR . $this->publicKeyPath;
     }
 
     /**

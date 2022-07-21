@@ -44,9 +44,10 @@ final class OAuthOpenIDConnectDataHelperTest extends TestCase
     public function initialize(): void
     {
         $helper = new OAuthOpenIDConnectDataHelper(
+            projectDir: __DIR__ . '/../../../../..',
             encryptionKey: 'encryption_key',
             publicKeyPath: 'public/key/path',
-            privateKeyPath: __DIR__ . '/../../../../../config/openidconnect/keys/private.key',
+            privateKeyPath: 'config/openidconnect/keys/private.key',
             jwkJsonPath: 'jwk/json/path',
             filesystem: $this->filesystem,
             identityRepository: $this->identityRepository,
@@ -75,7 +76,7 @@ final class OAuthOpenIDConnectDataHelperTest extends TestCase
         );
 
         self::assertEquals(
-            expected: 'public/key/path',
+            expected: __DIR__ . '/../../../../../public/key/path',
             actual: $helper->publicKeyPath(),
         );
 

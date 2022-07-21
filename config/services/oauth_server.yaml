@@ -9,6 +9,7 @@ services:
   Coddin\IdentityProvider\Helper\OAuthOpenIDConnectDataHelperInterface:
     class: Coddin\IdentityProvider\Helper\OAuthOpenIDConnectDataHelper
     arguments:
+      $projectDir: '%kernel.project_dir%'
       $encryptionKey: '%env(IDP_ENCRYPTION_KEY)%'
       $publicKeyPath: '%env(IDP_PUBLIC_KEY_ABSOLUTE_PATH)%'
       $privateKeyPath: '%env(IDP_PRIVATE_KEY_ABSOLUTE_PATH)%'
