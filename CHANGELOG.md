@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# [1.0.3] - 2022-07-21
+# [1.0.3] - 2022-07-22
 ### Changed
 - Refactor the LeagueOAuthServer2 setup helper encryptionKey parameter to use a `Defuse\Crypto\Key` insteadof a string
   - this is a lot faster / safer than inputting a random cryptographic (password) string
