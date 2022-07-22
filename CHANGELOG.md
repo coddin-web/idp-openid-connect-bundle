@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# [1.0.3] - 2022-07-21
+### Changed
+- Refactor the LeagueOAuthServer2 setup helper encryptionKey parameter to use a `Defuse\Crypto\Key` insteadof a string
+  - this is a lot faster / safer than inputting a random cryptographic (password) string
+  - @see explanation at [oauth2.thephpleague.com](https://oauth2.thephpleague.com/installation/#key-object)
+- Update README.md accordingly
+
 # [1.0.2] - 2022-07-21
 ### Changed
 - Made all configuration file paths relative to the project directory
@@ -102,6 +109,7 @@ Many small fixes but still some TODO's left to address
 ### Added (still WIP)
 - Initial setup of this bundle
 
+[1.0.3]: https://github.com/coddin-web/idp-openid-connect-bundle/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/coddin-web/idp-openid-connect-bundle/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/coddin-web/idp-openid-connect-bundle/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/coddin-web/idp-openid-connect-bundle/compare/0.11.0...1.0.0

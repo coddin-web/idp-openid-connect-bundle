@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Coddin\IdentityProvider\Helper;
 
 use Coddin\IdentityProvider\Repository\LeagueOAuth2Server\IdentityRepository;
+use Defuse\Crypto\Exception\BadFormatException;
+use Defuse\Crypto\Exception\EnvironmentIsBrokenException;
+use Defuse\Crypto\Key;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use League\OAuth2\Server\CryptKey;
@@ -24,9 +27,13 @@ final class OAuthOpenIDConnectDataHelper implements OAuthOpenIDConnectDataHelper
     ) {
     }
 
-    public function encryptionKey(): string
+    /**
+     * @throws BadFormatException
+     * @throws EnvironmentIsBrokenException
+     */
+    public function encryptionKey(): Key
     {
-        return $this->encryptionKey;
+        return Key::loadFromAsciiSafeString($this->encryptionKey);
     }
 
     public function privateKeyCryptKey(): CryptKey

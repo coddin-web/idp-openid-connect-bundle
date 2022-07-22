@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Coddin\IdentityProvider\Helper;
 
+use Defuse\Crypto\Key;
 use League\OAuth2\Server\CryptKey;
 use OpenIDConnectServer\IdTokenResponse;
 use Safe\Exceptions\FilesystemException;
 
 interface OAuthOpenIDConnectDataHelperInterface
 {
-    public function encryptionKey(): string;
+    public function encryptionKey(): Key;
 
     public function privateKeyCryptKey(): CryptKey;
 

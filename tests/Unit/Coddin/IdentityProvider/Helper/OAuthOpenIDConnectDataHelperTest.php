@@ -8,6 +8,7 @@ namespace Tests\Unit\Coddin\IdentityProvider\Helper;
 
 use Coddin\IdentityProvider\Helper\OAuthOpenIDConnectDataHelper;
 use Coddin\IdentityProvider\Repository\LeagueOAuth2Server\IdentityRepository;
+use Defuse\Crypto\Key;
 use League\Flysystem\Filesystem;
 use League\OAuth2\Server\CryptKey;
 use OpenIDConnectServer\IdTokenResponse;
@@ -25,10 +26,13 @@ final class OAuthOpenIDConnectDataHelperTest extends TestCase
     /** @var IdentityRepository & MockObject */
     private $identityRepository;
 
+    private readonly string $encryptionKey;
+
     protected function setUp(): void
     {
         $this->filesystem = $this->createMock(Filesystem::class);
         $this->identityRepository = $this->createMock(IdentityRepository::class);
+        $this->encryptionKey = 'def000005eaf651068786e45ce205d1fca7ef2888af744772df31d9f3ff80275e514a667ac3d4306afd4948e8785c2255e210d30a07f3237a8d15145d7565926224b2519';
     }
 
     /**
@@ -45,7 +49,7 @@ final class OAuthOpenIDConnectDataHelperTest extends TestCase
     {
         $helper = new OAuthOpenIDConnectDataHelper(
             projectDir: __DIR__ . '/../../../../..',
-            encryptionKey: 'encryption_key',
+            encryptionKey: $this->encryptionKey,
             publicKeyPath: 'public/key/path',
             privateKeyPath: 'config/openidconnect/keys/private.key',
             jwkJsonPath: 'jwk/json/path',
@@ -53,8 +57,9 @@ final class OAuthOpenIDConnectDataHelperTest extends TestCase
             identityRepository: $this->identityRepository,
         );
 
-        self::assertEquals(
-            expected: 'encryption_key',
+        /* @phpstan-ignore-next-line */
+        self::assertInstanceOf(
+            expected: Key::class,
             actual: $helper->encryptionKey(),
         );
 
