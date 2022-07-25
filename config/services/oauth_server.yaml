@@ -11,9 +11,9 @@ services:
     arguments:
       $projectDir: '%kernel.project_dir%'
       $encryptionKey: '%env(IDP_ENCRYPTION_KEY)%'
-      $publicKeyPath: '%env(IDP_PUBLIC_KEY_ABSOLUTE_PATH)%'
-      $privateKeyPath: '%env(IDP_PRIVATE_KEY_ABSOLUTE_PATH)%'
-      $jwkJsonPath: '%env(IDP_JWKS_RELATIVE_PATH)%'
+      $publicKeyPath: '%env(IDP_PUBLIC_KEY_PATH)%'
+      $privateKeyPath: '%env(IDP_PRIVATE_KEY_PATH)%'
+      $jwkJsonPath: '%env(IDP_JWKS_PATH)%'
 
   League\OAuth2\Server\AuthorizationServer:
     arguments:
