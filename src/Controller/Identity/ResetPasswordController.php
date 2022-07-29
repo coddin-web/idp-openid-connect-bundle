@@ -25,6 +25,7 @@ final class ResetPasswordController extends AbstractController
             view: '@CoddinIdentityProvider/password/reset.index.html.twig',
             parameters: [
                 'resetToken' => $token,
+                'companyName' => $this->getParameter('idp.company_name'),
             ],
         );
     }

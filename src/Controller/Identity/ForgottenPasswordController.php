@@ -20,7 +20,10 @@ final class ForgottenPasswordController extends AbstractController
     public function index(): Response
     {
         return $this->render(
-            '@CoddinIdentityProvider/password/forgotten.html.twig',
+            view: '@CoddinIdentityProvider/password/forgotten.html.twig',
+            parameters: [
+                'companyName' => $this->getParameter('idp.company_name'),
+            ],
         );
     }
 
@@ -48,7 +51,10 @@ final class ForgottenPasswordController extends AbstractController
     public function splash(): Response
     {
         return $this->render(
-            '@CoddinIdentityProvider/password/splash.html.twig',
+            view: '@CoddinIdentityProvider/password/splash.html.twig',
+            parameters: [
+                'companyName' => $this->getParameter('idp.company_name'),
+            ],
         );
     }
 }

@@ -11,6 +11,11 @@ final class AccountController extends AbstractController
 {
     public function profile(): Response
     {
-        return $this->render('@CoddinIdentityProvider/account/profile.html.twig');
+        return $this->render(
+            view: '@CoddinIdentityProvider/account/profile.html.twig',
+            parameters: [
+                'companyName' => $this->getParameter('idp.company_name'),
+            ],
+        );
     }
 }
