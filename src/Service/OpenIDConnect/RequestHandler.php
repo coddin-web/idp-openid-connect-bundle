@@ -14,6 +14,7 @@ use Coddin\IdentityProvider\Service\Psr7Message\Psr7Factory;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
+use League\OAuth2\Server\Grant\RefreshTokenGrant;
 use League\OAuth2\Server\RequestTypes\AuthorizationRequest;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
@@ -42,7 +43,7 @@ final class RequestHandler
         private readonly UserOAuthClientVerifier $userOAuthClientVerifier,
         private readonly HttpFoundationFactory $httpFoundationFactory,
     ) {
-        $this->enableAuthCodeGrant();
+        $this->enableGrantTypes();
 
         $this->psrHttpFactory = Psr7Factory::create();
     }
@@ -124,15 +125,34 @@ final class RequestHandler
     /**
      * @throws Exception
      */
+    private function enableGrantTypes(): void
+    {
+        $this->enableAuthCodeGrant();
+        // Todo: Check if enabled in configuration?
+        $this->enableRefreshTokenGrant();
+    }
+
+    /**
+     * @throws Exception
+     */
     private function enableAuthCodeGrant(): void
     {
         $this->authorizationServer->enableGrantType(
-            new AuthCodeGrant(
-                $this->authCodeRepository,
-                $this->refreshTokenRepository,
-                new \DateInterval('PT10M'),
+            grantType: new AuthCodeGrant(
+                authCodeRepository: $this->authCodeRepository,
+                refreshTokenRepository: $this->refreshTokenRepository,
+                authCodeTTL: new \DateInterval('PT10M'),
             ),
-            new \DateInterval('PT1H'),
+            accessTokenTTL: new \DateInterval('PT1H'),
+        );
+    }
+
+    private function enableRefreshTokenGrant(): void
+    {
+        $this->authorizationServer->enableGrantType(
+            grantType: new RefreshTokenGrant(
+                refreshTokenRepository: $this->refreshTokenRepository,
+            ),
         );
     }
 

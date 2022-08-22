@@ -35,7 +35,9 @@ use Symfony\Component\Security\Core\Security;
 /**
  * @coversDefaultClass \Coddin\IdentityProvider\Service\OpenIDConnect\RequestHandler
  * @covers ::__construct
+ * @covers ::enableGrantTypes
  * @covers ::enableAuthCodeGrant
+ * @covers ::enableRefreshTokenGrant
  */
 final class RequestHandlerTest extends TestCase
 {
@@ -81,7 +83,7 @@ final class RequestHandlerTest extends TestCase
         $this->authorizationRequest = $this->createMock(AuthorizationRequest::class);
 
         $this->authorizationServer
-            ->expects(self::once())
+            ->expects(self::exactly(2))
             ->method('enableGrantType');
     }
 
