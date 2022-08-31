@@ -7,26 +7,29 @@ namespace Coddin\IdentityProvider\Collection;
 use Assert\Assertion;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthAccessToken;
 
-final class OAuthAccessTokenCollection
+/**
+ * @template-implements DoctrineEntityCollection<OAuthAccessToken>
+ */
+final class OAuthAccessTokenCollection implements DoctrineEntityCollection
 {
-    /** @param array<OAuthAccessToken> $oauthAccessTokens */
+    /** @param array<int, OAuthAccessToken> $oauthAccessTokens */
     private function __construct(
         private readonly array $oauthAccessTokens,
     ) {
     }
 
     /**
-     * @param array<OAuthAccessToken> $oauthAccessTokens
+     * @param array<int, OAuthAccessToken> $entities
      */
-    public static function create(array $oauthAccessTokens): self
+    public static function create(array $entities): self
     {
-        Assertion::allIsInstanceOf($oauthAccessTokens, OAuthAccessToken::class);
+        Assertion::allIsInstanceOf($entities, OAuthAccessToken::class);
 
-        return new self($oauthAccessTokens);
+        return new self($entities);
     }
 
     /**
-     * @return array<OAuthAccessToken>
+     * @return array<int, OAuthAccessToken>
      */
     public function all(): array
     {

@@ -1,0 +1,3 @@
+twig:
+  globals:
+    companyName: '%env(COMPANY_NAME)%'

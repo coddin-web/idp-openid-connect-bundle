@@ -15,6 +15,8 @@ final class TailwindInputComponent
     public string $name;
     public string $type = 'text';
     public bool $autofocus = false;
+    public bool $readonly = false;
     public string $message;
     public string $helpText = '';
+    public string $value = '';
 }

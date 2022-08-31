@@ -1,0 +1,28 @@
+Coddin\IdentityProvider\Entity\OpenIDConnect\UserMfaMethodConfig:
+  type: entity
+  table: user_mfa_method_config
+  repositoryClass: Coddin\IdentityProvider\Repository\UserMfaMethodConfigRepository
+  id:
+    id:
+      type: integer
+      options:
+        unsigned: true
+      generator:
+        strategy: AUTO
+  fields:
+    key:
+      column: '`key`'
+      type: string
+      length: 255
+    value:
+      column: '`value`'
+      type: string
+      length: 255
+  manyToOne:
+    userMfaMethod:
+      targetEntity: UserMfaMethod
+      inversedBy: userMfaMethodConfigs
+      joinColumn:
+        name: user_mfa_method_id
+        referencedColumnName: id
+        onDelete: CASCADE

@@ -1,0 +1,22 @@
+Coddin\IdentityProvider\Entity\OpenIDConnect\MfaMethod:
+  type: entity
+  table: mfa_method
+  repositoryClass: Coddin\IdentityProvider\Repository\MfaMethodRepository
+  id:
+    id:
+      type: integer
+      options:
+        unsigned: true
+      generator:
+        strategy: AUTO
+  fields:
+    identifier:
+      type: string
+      length: 255
+    type:
+      type: string
+      length: 10
+  oneToMany:
+    userMfaMethods:
+      targetEntity: UserMfaMethod
+      mappedBy: mfaMethod

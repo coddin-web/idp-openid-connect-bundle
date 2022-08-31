@@ -26,6 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @param Collection<int, OAuthAuthorizationCode> $oAuthAuthorizationCodes
      * @param Collection<int, OAuthAccessToken> $oAuthAccessTokens
      * @param Collection<int, UserOAuthClient> $userOAuthClients
+     * @param Collection<int, UserMfaMethod> $userMfaMethods
      */
     public function __construct(
         private string $uuid,
@@ -37,6 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         private Collection $oAuthAuthorizationCodes,
         private Collection $oAuthAccessTokens,
         private Collection $userOAuthClients,
+        private Collection $userMfaMethods,
         private string $roles,
     ) {
     }
@@ -103,6 +105,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->userOAuthClients;
     }
 
+    /**
+     * @return Collection<int, UserMfaMethod>
+     */
+    public function getUserMfaMethods(): Collection
+    {
+        return $this->userMfaMethods;
+    }
+
     // Symfony Security.
 
     /**
@@ -120,7 +130,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // Guarantee every user at least has ROLE_USER.
         $roles[] = 'ROLE_USER';
 
-        /* @phpstan-ignore-next-line */
         return \array_unique($roles);
     }
 

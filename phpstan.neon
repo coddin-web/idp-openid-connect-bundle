@@ -1,23 +1,14 @@
 includes:
-    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - vendor/phpstan/phpstan-strict-rules/rules.neon
     - vendor/phpstan/phpstan-symfony/extension.neon
     - vendor/phpstan/phpstan-symfony/rules.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
 
-services:
-    -
-        class: PHPStan\Rules\Cast\UselessCastRule
-        arguments:
-            treatPhpDocTypesAsCertain: %treatPhpDocTypesAsCertain%
-        tags:
-            - phpstan.rules.rule
-
 parameters:
     tmpDir: var/cache/phpstan
-    bootstrapFiles:
-        - ./phpstan-bootstrap.php
+#    bootstrapFiles:
+#        - ./phpstan-bootstrap.php
     paths:
         - src
         - tests
@@ -28,3 +19,4 @@ parameters:
     level: 9
 
     checkMissingIterableValueType: true
+    treatPhpDocTypesAsCertain: true

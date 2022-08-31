@@ -33,9 +33,8 @@ final class RegistrationController extends AbstractController
         $request->getSession()->remove('registration_errors');
 
         return $this->render(
-            '@CoddinIdentityProvider/register/index.html.twig',
-            [
-                'companyName' => $this->getParameter('idp.company_name'),
+            view: '@CoddinIdentityProvider/register/index.html.twig',
+            parameters: [
                 'errors' => $errors,
             ],
         );

@@ -7,7 +7,10 @@ namespace Coddin\IdentityProvider\Collection;
 use Assert\Assertion;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthAuthorizationCode;
 
-final class OAuthAuthorizationCodeCollection
+/**
+ * @template-implements DoctrineEntityCollection<OAuthAuthorizationCode>
+ */
+final class OAuthAuthorizationCodeCollection implements DoctrineEntityCollection
 {
     /** @param array<OAuthAuthorizationCode> $oauthAuthorizationCodes */
     private function __construct(
@@ -16,17 +19,17 @@ final class OAuthAuthorizationCodeCollection
     }
 
     /**
-     * @param array<OAuthAuthorizationCode> $oauthAuthorizationCodes
+     * @param array<int, OAuthAuthorizationCode> $entities
      */
-    public static function create(array $oauthAuthorizationCodes): self
+    public static function create(array $entities): self
     {
-        Assertion::allIsInstanceOf($oauthAuthorizationCodes, OAuthAuthorizationCode::class);
+        Assertion::allIsInstanceOf($entities, OAuthAuthorizationCode::class);
 
-        return new self($oauthAuthorizationCodes);
+        return new self($entities);
     }
 
     /**
-     * @return array<OAuthAuthorizationCode>
+     * @return array<int, OAuthAuthorizationCode>
      */
     public function all(): array
     {

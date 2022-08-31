@@ -21,9 +21,6 @@ final class ForgottenPasswordController extends AbstractController
     {
         return $this->render(
             view: '@CoddinIdentityProvider/password/forgotten.html.twig',
-            parameters: [
-                'companyName' => $this->getParameter('idp.company_name'),
-            ],
         );
     }
 
@@ -52,9 +49,6 @@ final class ForgottenPasswordController extends AbstractController
     {
         return $this->render(
             view: '@CoddinIdentityProvider/password/splash.html.twig',
-            parameters: [
-                'companyName' => $this->getParameter('idp.company_name'),
-            ],
         );
     }
 }

@@ -21,7 +21,7 @@
                             {% endfor %}
                         </div>
                     {% endif %}
-                    <form class="space-y-6" action="{{ url('coddin_identity_provider.register.submit') }}" method="post">
+                    <form class="space-y-6" action="{{ path('coddin_identity_provider.register.submit') }}" method="post">
                         <input type="hidden" name="_target_path" value="/login">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
@@ -61,7 +61,7 @@
                         <div class="flex items-center justify-between">
                             <div class="text-sm">
                                 {{ 'account.register.existing_user'|trans }}
-                                <a href="{{ url('coddin_identity_provider.login') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
+                                <a href="{{ path('coddin_identity_provider.login') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
                                     {{ 'account.register.sign_in'|trans }}
                                 </a>
                             </div>

@@ -33,6 +33,7 @@ final class UserCreate
             oAuthAuthorizationCodes: new ArrayCollection(),
             oAuthAccessTokens: new ArrayCollection(),
             userOAuthClients: new ArrayCollection(),
+            userMfaMethods: new ArrayCollection(),
             roles: json_encode($roles),
         );
     }

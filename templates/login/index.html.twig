@@ -17,7 +17,7 @@
                             <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
                         </div>
                     {% endif %}
-                    <form class="space-y-6" action="{{ url('coddin_identity_provider.login') }}" method="post">
+                    <form class="space-y-6" action="{{ path('coddin_identity_provider.login') }}" method="post">
                         <input type="hidden" name="_target_path" value="/login/oidc">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
@@ -41,13 +41,13 @@
                         <div class="flex items-center justify-between">
                             <div class="text-sm">
                                 {{ 'account.login.no_account'|trans }}
-                                <a href="{{ url('coddin_identity_provider.register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">{{ 'account.login.register'|trans }}</a>
+                                <a href="{{ path('coddin_identity_provider.register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">{{ 'account.login.register'|trans }}</a>
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between">
                             <div class="text-sm">
-                                <a href="{{ url('coddin_identity_provider.forgotten_password') }}" class="font-medium text-indigo-600 hover:text-ingido-500">
+                                <a href="{{ path('coddin_identity_provider.forgotten_password') }}" class="font-medium text-indigo-600 hover:text-ingido-500">
                                     {{ 'account.password.forgotten'|trans }}
                                 </a>
                             </div>

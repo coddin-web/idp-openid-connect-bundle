@@ -46,3 +46,13 @@ coddin_identity_provider.password.reset.submit:
   path: /password/reset/{token}
   methods: POST
   controller: Coddin\IdentityProvider\Controller\Identity\ResetPasswordController::process
+
+coddin_identity_provider.mfa:
+  path: /login/mfa
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\Auth\MfaController::index
+
+coddin_identity_provider.mfa.submit:
+  path: /login/mfa
+  methods: POST
+  controller: Coddin\IdentityProvider\Controller\Auth\MfaController::process

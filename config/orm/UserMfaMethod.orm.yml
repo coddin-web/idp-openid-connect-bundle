@@ -1,0 +1,34 @@
+Coddin\IdentityProvider\Entity\OpenIDConnect\UserMfaMethod:
+  type: entity
+  table: user_mfa_method
+  repositoryClass: Coddin\IdentityProvider\Repository\UserMfaMethodRepository
+  id:
+    id:
+      type: integer
+      options:
+        unsigned: true
+      generator:
+        strategy: AUTO
+  fields:
+    isActive:
+      type: boolean
+    isValidated:
+      type: boolean
+  manyToOne:
+    user:
+      targetEntity: User
+      inversedBy: userMfaMethods
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+    mfaMethod:
+      targetEntity: MfaMethod
+      inversedBy: userMfaMethods
+      joinColumn:
+        name: mfa_method_id
+        referencedColumnName: id
+  oneToMany:
+    userMfaMethodConfigs:
+      targetEntity: UserMfaMethodConfig
+      mappedBy: userMfaMethod
+      cascade: ["persist", "remove"]

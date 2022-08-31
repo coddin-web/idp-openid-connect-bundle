@@ -2,3 +2,23 @@ coddin_identity_provider.account.profile:
   path: /profile
   methods: GET
   controller: Coddin\IdentityProvider\Controller\AccountController::profile
+
+coddin_identity_provider.account.security:
+  path: /security
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\AccountController::security
+
+coddin_identity_provider.account.security_delete_mfa:
+  path: /security/mfa/remove
+  methods: POST
+  controller: Coddin\IdentityProvider\Controller\AccountController::deleteMfa
+
+coddin_identity_provider.account.security_setup_mfa:
+  path: /security/mfa/setup/{mfaIdentifier}
+  methods: GET
+  controller: Coddin\IdentityProvider\Controller\AccountController::setupMfa
+
+coddin_identity_provider.account.security_validate_mfa:
+  path: /security/mfa/setup/{mfaIdentifier}
+  methods: POST
+  controller: Coddin\IdentityProvider\Controller\AccountController::validateMfa

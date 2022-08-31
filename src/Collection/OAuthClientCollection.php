@@ -7,7 +7,10 @@ namespace Coddin\IdentityProvider\Collection;
 use Assert\Assertion;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\OAuthClient;
 
-final class OAuthClientCollection
+/**
+ * @template-implements DoctrineEntityCollection<OAuthClient>
+ */
+final class OAuthClientCollection implements DoctrineEntityCollection
 {
     /** @param array<OAuthClient> $oauthClients */
     private function __construct(
@@ -15,18 +18,15 @@ final class OAuthClientCollection
     ) {
     }
 
-    /**
-     * @param array<OAuthClient> $oauthClients
-     */
-    public static function create(array $oauthClients): self
+    public static function create(array $entities): self
     {
-        Assertion::allIsInstanceOf($oauthClients, OAuthClient::class);
+        Assertion::allIsInstanceOf($entities, OAuthClient::class);
 
-        return new self($oauthClients);
+        return new self($entities);
     }
 
     /**
-     * @return array<OAuthClient>
+     * @return array<int, OAuthClient>
      */
     public function all(): array
     {

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Coddin\IdentityProvider\Controller\Identity;
 
+use Coddin\IdentityProvider\Entity\OpenIDConnect\User;
 use Coddin\IdentityProvider\Repository\OAuthAccessTokenRepository;
 use Coddin\IdentityProvider\Repository\OAuthClientRepository;
 use Coddin\IdentityProvider\Exception\OAuthEntityNotFoundException;
+use Coddin\IdentityProvider\Service\Auth\MfaProvider;
 use Exception;
 use Coddin\IdentityProvider\Helper\OAuthOpenIDConnectDataHelperInterface;
 use Coddin\IdentityProvider\Service\OpenIDConnect\ConfigGenerator;
@@ -40,6 +42,7 @@ final class AuthorizationController extends AbstractController
         private readonly OAuthClientRepository $oauthClientRepository,
         private readonly OAuthOpenIDConnectDataHelperInterface $oauthOpenIDConnectDataHelper,
         private readonly OAuthAccessTokenRepository $oauthAccessTokenRepository,
+        private readonly MfaProvider $mfaProvider,
     ) {
     }
 
@@ -48,13 +51,20 @@ final class AuthorizationController extends AbstractController
         AuthenticationUtils $authenticationUtils,
     ): Response {
         if ($security->getUser() !== null) {
+            /** @var User $user */
+            $user = $security->getUser();
+
+            // Todo: Create a setting for MFA obligatory or not?
+            if ($this->mfaProvider->hasActiveMfa($user) && $this->mfaProvider->isVerified() === false) {
+                return $this->redirectToRoute('coddin_identity_provider.mfa');
+            }
+
             return $this->redirectToRoute('coddin_identity_provider.account.profile');
         }
 
         return $this->render(
             '@CoddinIdentityProvider/login/index.html.twig',
             [
-                'companyName' => $this->getParameter('idp.company_name'),
                 'lastUsername' => $authenticationUtils->getLastUsername(),
                 'error' => $authenticationUtils->getLastAuthenticationError(),
             ],
@@ -69,6 +79,14 @@ final class AuthorizationController extends AbstractController
     ): Response {
         if (!$security->getUser() instanceof UserInterface) {
             return $this->redirectToRoute('coddin_identity_provider.login');
+        }
+
+        /** @var User $user */
+        $user = $security->getUser();
+
+        // Todo: Create a setting for MFA obligatory or not?
+        if ($this->mfaProvider->hasActiveMfa($user) && $this->mfaProvider->isVerified() === false) {
+            return $this->redirectToRoute('coddin_identity_provider.mfa');
         }
 
         // If we got here with an authenticated user but do not have an authorizationRequest, the login

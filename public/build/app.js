@@ -1,1 +1,1 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[143],{144:()=>{}},s=>{var e;e=144,s(s.s=e)}]);
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[143],{416:(e,n,s)=>{var o=s(191);const t={name:"Example"};const a=(0,s(744).Z)(t,[["render",function(e,n,s,t,a,l){return(0,o.wg)(),(0,o.iD)("h1",null,"The is the Example component")}]]);console.log("asdf_bundle"),(0,o.ri)({components:{Example:a}}).mount("#app")}},e=>{e.O(0,[801],(()=>{return n=416,e(e.s=n);var n}));e.O()}]);

@@ -1,0 +1,64 @@
+{% extends '@CoddinIdentityProvider/base.html.twig' %}
+
+{% block html_class %}h-full bg-gray-100{% endblock %}
+
+{% block body_class %}h-full{% endblock %}
+{% block body %}
+    <div class="h-full">
+        <main class="max-w-7xl mx-auto pb-10 lg:py-12 lg:px-8">
+            <div class="py-6 px-2">
+                <h1 class="text-3xl tracking-tight font-bold text-gray-900">Account settings</h1>
+            </div>
+
+            <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
+                <aside class="py-6 px-2 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3">
+                    <nav class="space-y-1">
+                        <!-- Current: "bg-gray-50 text-orange-600 hover:bg-white", Default: "text-gray-900 hover:text-gray-900 hover:bg-gray-50" -->
+                        <a href="{{ path('coddin_identity_provider.account.profile') }}" class="text-gray-900 hover:text-gray-900 hover:bg-gray-50 group rounded-md px-3 py-2 flex items-center text-sm font-medium">
+                            <!-- Heroicon name: outline/cog -->
+                            <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span class="truncate"> Account </span>
+                        </a>
+
+                        <a href="#" class="bg-gray-50 text-orange-600 hover:bg-white group rounded-md px-3 py-2 flex items-center text-sm font-medium">
+                            <!-- Heroicon name: outline/key -->
+                            <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                            </svg>
+                            <span class="truncate"> Security </span>
+                        </a>
+                    </nav>
+                </aside>
+
+                <div class="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
+                    <section aria-labelledby="account-details">
+                        <div class="shadow sm:rounded-md sm:overflow-hidden">
+                            <div class="bg-white py-6 px-4 sm:p-6">
+                                <h2>Setup your MFA</h2>
+                                {{ qrCodeData | raw }}
+
+                                <!-- TODO: This `mfaType` should not be hardcoded -->
+                                <form action="{{ path('coddin_identity_provider.account.security_validate_mfa', {mfaIdentifier: 'auth_app'}) }}" method="POST">
+                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('setup_mfa') }}">
+
+                                    {{ component('idp_openid_connect.input', {
+                                        name: 'mfa_validate',
+                                        type: 'text',
+                                        message: 'account.security.mfa_validate',
+                                    }) }}
+
+                                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        {{ 'account.mfa.validate'|trans }}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}

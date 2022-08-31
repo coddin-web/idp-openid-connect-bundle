@@ -38,3 +38,6 @@ Coddin\IdentityProvider\Entity\OpenIDConnect\User:
     userOAuthClients:
       targetEntity: UserOAuthClient
       mappedBy: user
+    userMfaMethods:
+      targetEntity: UserMfaMethod
+      mappedBy: user
