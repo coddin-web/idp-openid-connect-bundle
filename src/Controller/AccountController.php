@@ -140,20 +140,21 @@ final class AccountController extends AbstractController
         /** @var User $user */
         $user = $security->getUser();
 
-        // Todo: This should be in the AuthenticatorAppMethodHandler::class.
         $userMfaMethodForType = $this->userMfaMethodRepository->getUnConfiguredMfaMethodForUser(
             $user,
             MfaMethod::fromValue($mfaIdentifier),
         );
 
-         // Todo: Extract correct config by type `key`.
+        // Todo: This should be in the AuthenticatorAppMethodHandler::class.
+        // Todo: Move key/value logic to a service/helper that handles getting the correct value.
         $userMfaMethodConfig = $userMfaMethodForType->getUserMfaMethodConfigs();
+        /** @var UserMfaMethodConfig $userMfaMethodSecret */
         $userMfaMethodSecret = $userMfaMethodConfig->filter(
             fn(UserMfaMethodConfig $userMfaMethodConfig) => $userMfaMethodConfig->getKey() === 'totp_secret_key',
-        );
+        )[0];
 
-        /* @phpstan-ignore-next-line */
-        $verified = TOTP::create($userMfaMethodSecret[0]->getValue())->verify($otp);
+        /* @phpstan-ignore-next-line Fix validation */
+        $verified = TOTP::create($userMfaMethodSecret->getValue())->verify($otp);
         if ($verified === false) {
             // Todo: Handle errors.
             $this->redirectToRoute('coddin_identity_provider.account.profile');

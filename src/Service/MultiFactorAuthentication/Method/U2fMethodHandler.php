@@ -16,6 +16,11 @@ final class U2fMethodHandler implements MfaMethodHandler
 
     public function verifyAuthentication(array $verificationData): bool
     {
-        return false;
+        throw new \LogicException('Not implemented yet');
+    }
+
+    public function sendOtp(UserMfaMethod $userMfaMethod): void
+    {
+        throw new \LogicException('Not implemented yet');
     }
 }

@@ -1,3 +1,4 @@
+#Move all these environment values to a bundle config
 parameters:
   router.request_context.host: '%env(IDP_HOST_URL)%'
   router.request_context.scheme: '%env(default:default_scheme:IDP_SCHEME)%'

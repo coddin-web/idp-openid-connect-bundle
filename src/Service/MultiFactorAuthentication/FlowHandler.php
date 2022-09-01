@@ -22,7 +22,19 @@ final class FlowHandler
     /**
      * @throws \Exception
      */
-    public function handleActiveMfa(
+    public function sendOneTimePasswordToUser(
+        User $user,
+    ): void {
+        $userMfaMethod = $this->userMfaMethodRepository->getActiveMfaMethodForUser($user);
+        $mfaMethodHandler = $this->methodHandlerDeterminator->execute($userMfaMethod);
+
+        $mfaMethodHandler->sendOtp($userMfaMethod);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function processSubmittedMfa(
         Request $request,
         Security $security,
     ): void {

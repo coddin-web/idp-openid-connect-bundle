@@ -25,4 +25,9 @@ final class AuthenticatorAppMethodHandler implements MfaMethodHandler
             verificationData: $verificationData,
         );
     }
+
+    public function sendOtp(UserMfaMethod $userMfaMethod): void
+    {
+        // Do nothing.
+    }
 }

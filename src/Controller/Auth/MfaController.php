@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Coddin\IdentityProvider\Controller\Auth;
 
+use Coddin\IdentityProvider\Entity\OpenIDConnect\User;
 use Coddin\IdentityProvider\Service\Auth\MfaProvider;
 use Coddin\IdentityProvider\Service\MultiFactorAuthentication\FlowHandler as MfaFlowHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,17 +24,27 @@ final class MfaController extends AbstractController
         Request $request,
         Security $security,
     ): Response {
-        if ($security->getUser() === null) {
+        $user = $security->getUser();
+        if (!$user instanceof User) {
             return $this->redirectToRoute('coddin_identity_provider.login');
         }
 
-        // Todo remove.
+        $lastError = null;
+        try {
+            $this->mfaFlowHandler->sendOneTimePasswordToUser($user);
+        } catch (\Exception $e) {
+            $lastError = $e->getMessage();
+        }
+
         if ($request->getSession()->getFlashBag()->has('errors_for_mfa')) {
-            dump($request->getSession()->getFlashBag()->get('errors_for_mfa'));
+            $lastError = $request->getSession()->getFlashBag()->get('errors_for_mfa');
         }
 
         return $this->render(
-            '@CoddinIdentityProvider/login/mfa.index.html.twig',
+            view: '@CoddinIdentityProvider/login/mfa.index.html.twig',
+            parameters: [
+                'lastError' => $lastError,
+            ],
         );
     }
 
@@ -42,7 +53,7 @@ final class MfaController extends AbstractController
         Security $security,
     ): Response {
         try {
-            $this->mfaFlowHandler->handleActiveMfa($request, $security);
+            $this->mfaFlowHandler->processSubmittedMfa($request, $security);
         } catch (\Exception $e) {
             // Redirect with errors.
             $request->getSession()->getFlashBag()->add('errors_for_mfa', $e->getMessage());
