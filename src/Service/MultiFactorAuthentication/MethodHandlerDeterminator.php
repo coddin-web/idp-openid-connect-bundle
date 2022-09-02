@@ -8,14 +8,15 @@ use Coddin\IdentityProvider\Entity\OpenIDConnect\Enum\MfaMethod;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\UserMfaMethod;
 use Coddin\IdentityProvider\Service\MultiFactorAuthentication\Method\EmailMethodHandler;
 use Coddin\IdentityProvider\Service\MultiFactorAuthentication\Method\Factory\AuthenticatorAppMethodHandlerFactory;
+use Coddin\IdentityProvider\Service\MultiFactorAuthentication\Method\Factory\SmsMethodHandlerFactory;
 use Coddin\IdentityProvider\Service\MultiFactorAuthentication\Method\MfaMethodHandler;
-use Coddin\IdentityProvider\Service\MultiFactorAuthentication\Method\SmsMethodHandler;
 use Coddin\IdentityProvider\Service\MultiFactorAuthentication\Method\U2fMethodHandler;
 
 final class MethodHandlerDeterminator
 {
     public function __construct(
         private readonly AuthenticatorAppMethodHandlerFactory $authenticatorAppMethodHandlerFactory,
+        private readonly SmsMethodHandlerFactory $smsMethodHandlerFactory,
     ) {
     }
 
@@ -25,8 +26,7 @@ final class MethodHandlerDeterminator
     public function execute(UserMfaMethod $userMfaMethod): MfaMethodHandler
     {
         return match ($userMfaMethod->getMfaMethod()->getIdentifier()) {
-             // TODO: Implement.
-            MfaMethod::METHOD_SMS->value => new SmsMethodHandler($userMfaMethod),
+            MfaMethod::METHOD_SMS->value => $this->smsMethodHandlerFactory->create($userMfaMethod),
              // TODO: Implement.
             MfaMethod::METHOD_EMAIL->value => new EmailMethodHandler($userMfaMethod),
             MfaMethod::METHOD_AUTHENTICATOR_APP->value => $this->authenticatorAppMethodHandlerFactory->create($userMfaMethod),

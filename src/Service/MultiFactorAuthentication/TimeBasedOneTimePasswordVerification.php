@@ -34,7 +34,19 @@ final class TimeBasedOneTimePasswordVerification
             }
         }
 
+        // Default totp period value.
+        $period = 30;
+        if (isset($verificationData['period'])) {
+            $period = $verificationData['period'];
+        }
+
+        $timeBasedOneTimePassword = TOTP::create(
+            secret: $secret,
+            /* @phpstan-ignore-next-line */
+            period: $period,
+        );
+
         /* @phpstan-ignore-next-line */
-        return (TOTP::create($secret))->verify($otp);
+        return $timeBasedOneTimePassword->verify($otp);
     }
 }

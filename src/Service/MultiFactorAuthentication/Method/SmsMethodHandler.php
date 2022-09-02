@@ -13,6 +13,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class SmsMethodHandler implements MfaMethodHandler
 {
+    private const TOTP_PERIOD = (5 * 60);
+
     public function __construct(
         private readonly UserMfaMethod $userMfaMethod,
         private readonly TimeBasedOneTimePasswordVerification $timeBasedOneTimePasswordVerification,
@@ -26,6 +28,8 @@ final class SmsMethodHandler implements MfaMethodHandler
      */
     public function verifyAuthentication(array $verificationData): bool
     {
+        $verificationData['period'] = self::TOTP_PERIOD;
+
         return $this->timeBasedOneTimePasswordVerification->verifyAuthentication(
             userMfaMethod: $this->userMfaMethod,
             verificationData: $verificationData,
@@ -46,7 +50,10 @@ final class SmsMethodHandler implements MfaMethodHandler
             fn(UserMfaMethodConfig $userMfaMethodConfig) => $userMfaMethodConfig->getKey() === 'totp_secret_key',
         )[0];
 
-        $oneTimePassword = TOTP::create($userMfaMethodSecret->getValue());
+        $oneTimePassword = TOTP::create(
+            secret: $userMfaMethodSecret->getValue(),
+            period: self::TOTP_PERIOD,
+        );
 
         $this->smsClient->sendTextMessage(
             /* @phpstan-ignore-next-line */
