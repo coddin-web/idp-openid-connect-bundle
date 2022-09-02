@@ -52,6 +52,11 @@ coddin_identity_provider.mfa:
   methods: GET
   controller: Coddin\IdentityProvider\Controller\Auth\MfaController::index
 
+coddin_identity_provider.mfa.request_otp:
+  path: /login/mfa/request
+  methods: POST
+  controller: Coddin\IdentityProvider\Controller\Auth\MfaController::requestOtp
+
 coddin_identity_provider.mfa.submit:
   path: /login/mfa
   methods: POST

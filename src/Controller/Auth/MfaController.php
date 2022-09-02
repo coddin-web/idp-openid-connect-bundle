@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Coddin\IdentityProvider\Controller\Auth;
 
 use Coddin\IdentityProvider\Entity\OpenIDConnect\User;
+use Coddin\IdentityProvider\Repository\UserMfaMethodRepository;
 use Coddin\IdentityProvider\Service\Auth\MfaProvider;
 use Coddin\IdentityProvider\Service\MultiFactorAuthentication\FlowHandler as MfaFlowHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +18,7 @@ final class MfaController extends AbstractController
     public function __construct(
         private readonly MfaProvider $mfaProvider,
         private readonly MfaFlowHandler $mfaFlowHandler,
+        private readonly UserMfaMethodRepository $userMfaMethodRepository,
     ) {
     }
 
@@ -30,22 +32,37 @@ final class MfaController extends AbstractController
         }
 
         $lastError = null;
-        try {
-            $this->mfaFlowHandler->sendOneTimePasswordToUser($user);
-        } catch (\Exception $e) {
-            $lastError = $e->getMessage();
-        }
-
         if ($request->getSession()->getFlashBag()->has('errors_for_mfa')) {
             $lastError = $request->getSession()->getFlashBag()->get('errors_for_mfa');
         }
+
+        $userMfaMethod = $this->userMfaMethodRepository->getActiveMfaMethodForUser($user);
 
         return $this->render(
             view: '@CoddinIdentityProvider/login/mfa.index.html.twig',
             parameters: [
                 'lastError' => $lastError,
+                'mfaType' => $userMfaMethod->getMfaMethod()->getType(),
             ],
         );
+    }
+
+    // Todo: Add attribute to redirect when no user!
+    public function requestOtp(
+        Security $security,
+    ): Response {
+        $user = $security->getUser();
+        if (!$user instanceof User) {
+            return $this->redirectToRoute('coddin_identity_provider.login');
+        }
+
+        try {
+            $this->mfaFlowHandler->sendOneTimePasswordToUser($user);
+
+            return new Response();
+        } catch (\Exception $e) {
+            return new Response($e->getMessage(), $e->getCode());
+        }
     }
 
     public function process(
