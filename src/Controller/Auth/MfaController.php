@@ -42,7 +42,7 @@ final class MfaController extends AbstractController
             view: '@CoddinIdentityProvider/login/mfa.index.html.twig',
             parameters: [
                 'lastError' => $lastError,
-                'mfaType' => $userMfaMethod->getMfaMethod()->getType(),
+                'mfaType' => $userMfaMethod->getMfaMethod()->getIdentifier(),
             ],
         );
     }

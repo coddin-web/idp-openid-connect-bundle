@@ -12,10 +12,10 @@
 
             <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                    {% if (mfaType === constant('Coddin\\IdentityProvider\\Entity\\OpenIDConnect\\Enum\\MfaMethod::METHOD_AUTHENTICATOR_APP').value) %}
-                        {% import '@CoddinIdentityProvider/login/auth_app.mfa.html.twig' %}
-                    {% elseif (mfaType === constant('Coddin\\IdentityProvider\\Entity\\OpenIDConnect\\Enum\\MfaMethod::METHOD_SMS').value) %}
-                        {% import '@CoddinIdentityProvider/login/sms.mfa.html.twig' %}
+                    {% if (constant('Coddin\\IdentityProvider\\Entity\\OpenIDConnect\\Enum\\MfaMethod::METHOD_AUTHENTICATOR_APP').value is same as mfaType) %}
+                        {% include '@CoddinIdentityProvider/login/auth_app.mfa.html.twig' %}
+                    {% elseif (constant('Coddin\\IdentityProvider\\Entity\\OpenIDConnect\\Enum\\MfaMethod::METHOD_SMS').value is same as mfaType) %}
+                        {% include '@CoddinIdentityProvider/login/sms.mfa.html.twig' %}
                     {% endif %}
                 </div>
             </div>
