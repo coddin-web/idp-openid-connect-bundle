@@ -8,6 +8,7 @@ use Coddin\IdentityProvider\Entity\OpenIDConnect\UserMfaMethod;
 use Coddin\IdentityProvider\Entity\OpenIDConnect\UserMfaMethodConfig;
 use Coddin\IdentityProvider\Service\MultiFactorAuthentication\Method\Client\SmsClientInterface;
 use Coddin\IdentityProvider\Service\MultiFactorAuthentication\TimeBasedOneTimePasswordVerification;
+use OTPHP\TOTP;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class SmsMethodHandler implements MfaMethodHandler
@@ -45,12 +46,14 @@ final class SmsMethodHandler implements MfaMethodHandler
             fn(UserMfaMethodConfig $userMfaMethodConfig) => $userMfaMethodConfig->getKey() === 'totp_secret_key',
         )[0];
 
+        $oneTimePassword = TOTP::create($userMfaMethodSecret->getValue());
+
         $this->smsClient->sendTextMessage(
             /* @phpstan-ignore-next-line */
             originator: $this->parameterBag->get('idp.company_name'),
             recipient: $userMfaMethodPhoneNumber->getValue(),
             // Todo? Better / bigger message? Translatable?
-            body: $userMfaMethodSecret->getValue(),
+            body: (string) $oneTimePassword->getDigits(),
         );
     }
 }
