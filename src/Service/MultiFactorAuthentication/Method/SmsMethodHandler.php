@@ -44,11 +44,11 @@ final class SmsMethodHandler implements MfaMethodHandler
         /** @var UserMfaMethodConfig $userMfaMethodPhoneNumber */
         $userMfaMethodPhoneNumber = $userMfaMethodConfigs->filter(
             fn(UserMfaMethodConfig $userMfaMethodConfig) => $userMfaMethodConfig->getKey() === 'phone_number',
-        )[0];
+        )->first();
         /** @var UserMfaMethodConfig $userMfaMethodSecret */
         $userMfaMethodSecret = $userMfaMethodConfigs->filter(
             fn(UserMfaMethodConfig $userMfaMethodConfig) => $userMfaMethodConfig->getKey() === 'totp_secret_key',
-        )[0];
+        )->first();
 
         $oneTimePassword = TOTP::create(
             secret: $userMfaMethodSecret->getValue(),
@@ -60,7 +60,7 @@ final class SmsMethodHandler implements MfaMethodHandler
             originator: $this->parameterBag->get('idp.company_name'),
             recipient: $userMfaMethodPhoneNumber->getValue(),
             // Todo? Better / bigger message? Translatable?
-            body: (string) $oneTimePassword->getDigits(),
+            body: $oneTimePassword->now(),
         );
     }
 }
