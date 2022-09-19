@@ -96,7 +96,9 @@ final class AuthorizationController extends AbstractController
         // If we got here with an authenticated user but do not have an authorizationRequest, the login
         // must have happened on the IDP.
         if ($this->openIDConnectRequestHandler->hasCurrentAuthorizationRequest() === false) {
-            return $this->redirectToRoute('coddin_identity_provider.account.profile');
+            return $this->redirectToRoute(
+                route: $this->parameterBag->get('coddin_identity_provider.after_authorization_redirect_route_name')
+            );
         }
 
         return $this->openIDConnectRequestHandler->completeAuthorizationRequest($security);
