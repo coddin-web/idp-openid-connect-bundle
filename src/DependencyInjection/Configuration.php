@@ -11,6 +11,21 @@ final class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        return new TreeBuilder('coddin_identity_provider');
+        $treeBuilder = new TreeBuilder('coddin_identity_provider');
+
+        $treeBuilder->getRootNode()
+            ->children()
+                ->arrayNode('auth')
+                    ->children()
+                        ->arrayNode('without_client')
+                            ->children()
+                                ->scalarNode('after_authorization_redirect_route_name')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+
+        return $treeBuilder;
     }
 }

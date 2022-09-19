@@ -25,6 +25,7 @@ use Safe\Exceptions\FilesystemException;
 use Safe\Exceptions\JsonException;
 use Safe\Exceptions\UrlException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,6 +38,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 final class AuthorizationController extends AbstractController
 {
     public function __construct(
+        private readonly ParameterBagInterface $parameterBag,
         private readonly RequestHandler $openIDConnectRequestHandler,
         private readonly OAuthOpenIDConnectDataHelperInterface $oAuthOpenIDConnectDataHelper,
         private readonly OAuthClientRepository $oauthClientRepository,
@@ -59,7 +61,9 @@ final class AuthorizationController extends AbstractController
                 return $this->redirectToRoute('coddin_identity_provider.mfa');
             }
 
-            return $this->redirectToRoute('coddin_identity_provider.account.profile');
+            return $this->redirectToRoute(
+                route: $this->parameterBag->get('coddin_identity_provider.after_authorization_redirect_route_name')
+            );
         }
 
         return $this->render(
@@ -158,7 +162,7 @@ final class AuthorizationController extends AbstractController
         }
 
         $accessTokenEntity = $this->oauthAccessTokenRepository->getOneByExternalId(
-            /* @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
             externalId: $token->claims()->get('jti'),
         );
         if ($accessTokenEntity->getRevokedAt() !== null) {
